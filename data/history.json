@@ -1,0 +1,168 @@
+[
+  {
+    "timestamp": "2026-10-06 09:13:26",
+    "min_price": 855730,
+    "flight_count": 53,
+    "cheapest_flight": {
+      "id": "00abe4aa68a3486f43191bfaa9807b58",
+      "price": 855730,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU-551",
+      "departure_time": "15:40",
+      "arrival_time": "17:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-551",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "15:40",
+          "arrival_time": "17:35",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    "alert_sent": false
+  },
+  {
+    "timestamp": "2026-10-06 09:38:43",
+    "min_price": 855730,
+    "flight_count": 53,
+    "cheapest_flight": {
+      "id": "00abe4aa68a3486f43191bfaa9807b58",
+      "price": 855730,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU-551",
+      "departure_time": "15:40",
+      "arrival_time": "17:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-551",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "15:40",
+          "arrival_time": "17:35",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    "alert_sent": false
+  },
+  {
+    "timestamp": "2026-10-06 09:50:20",
+    "min_price": 855730,
+    "flight_count": 52,
+    "cheapest_flight": {
+      "id": "00abe4aa68a3486f43191bfaa9807b58",
+      "price": 855730,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU-551",
+      "departure_time": "15:40",
+      "arrival_time": "17:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-551",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "15:40",
+          "arrival_time": "17:35",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    "alert_sent": false
+  },
+  {
+    "timestamp": "2026-10-06 09:55:54",
+    "min_price": 855730,
+    "flight_count": 52,
+    "cheapest_flight": {
+      "id": "00abe4aa68a3486f43191bfaa9807b58",
+      "price": 855730,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU-551",
+      "departure_time": "15:40",
+      "arrival_time": "17:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-551",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "15:40",
+          "arrival_time": "17:35",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    "alert_sent": false
+  },
+  {
+    "timestamp": "2026-10-06 10:02:07",
+    "min_price": 855730,
+    "flight_count": 52,
+    "cheapest_flight": {
+      "id": "00abe4aa68a3486f43191bfaa9807b58",
+      "price": 855730,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU-551",
+      "departure_time": "15:40",
+      "arrival_time": "17:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-551",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "15:40",
+          "arrival_time": "17:35",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    "source": "Traveloka API",
+    "alert_sent": false
+  }
+]

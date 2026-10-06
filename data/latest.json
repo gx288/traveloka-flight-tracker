@@ -1,0 +1,2000 @@
+{
+  "updated_at": "2026-10-06 10:02:07",
+  "source": "Traveloka API",
+  "config": {
+    "trip_type": "round_trip",
+    "origin": "VII",
+    "destination": "SGN",
+    "departure_date": "21-10-2026",
+    "return_date": "22-10-2026",
+    "passengers": {
+      "adults": 1,
+      "children": 0,
+      "infants": 0
+    },
+    "seat_class": "ECONOMY",
+    "price_threshold": 700000,
+    "time_filter": {
+      "enabled": false,
+      "min_departure_time": "06:00",
+      "max_departure_time": "23:00"
+    },
+    "telegram": {
+      "enabled": true,
+      "bot_token": "",
+      "chat_id": ""
+    },
+    "_huong_dan": {
+      "trip_type": "'round_trip' (khứ hồi) hoặc 'one_way' (một chiều)",
+      "origin": "Mã sân bay xuất phát (VD: VII = Vinh, HAN = Hà Nội, SGN = TP.HCM)",
+      "destination": "Mã sân bay đích đến (VD: SGN = TP.HCM, VII = Vinh)",
+      "departure_date": "Ngày đi (định dạng DD-MM-YYYY, ví dụ: 21-10-2026)",
+      "return_date": "Ngày về (định dạng DD-MM-YYYY, ví dụ: 22-10-2026)",
+      "price_threshold": "Ngưỡng giá gửi tin nhắn Telegram (VD: 700000 = 700k)",
+      "time_filter": "Lọc giờ cất cánh (enabled: true/false, min_departure_time, max_departure_time)"
+    }
+  },
+  "total_flights": 52,
+  "min_price": 855730,
+  "cheapest_flight": {
+    "id": "00abe4aa68a3486f43191bfaa9807b58",
+    "price": 855730,
+    "currency": "VND",
+    "airline": "Vietravel Airlines",
+    "airline_code": "VU",
+    "flight_number": "VU-551",
+    "departure_time": "15:40",
+    "arrival_time": "17:35",
+    "departure_date": "21/10/2026",
+    "from": "VII",
+    "to": "SGN",
+    "stops": 0,
+    "segments": [
+      {
+        "airline": "Vietravel Airlines",
+        "airline_code": "VU",
+        "flight_number": "VU-551",
+        "from": "VII",
+        "to": "SGN",
+        "departure_time": "15:40",
+        "arrival_time": "17:35",
+        "departure_date": "21/10/2026",
+        "stops": 0
+      }
+    ]
+  },
+  "flights": [
+    {
+      "id": "00abe4aa68a3486f43191bfaa9807b58",
+      "price": 855730,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU-551",
+      "departure_time": "15:40",
+      "arrival_time": "17:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-551",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "15:40",
+          "arrival_time": "17:35",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "822c35384dceae814c249757d1bd7060",
+      "price": 971782,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-213",
+      "departure_time": "16:20",
+      "arrival_time": "18:10",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-213",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "16:20",
+          "arrival_time": "18:10",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "8f2e0aa4a6efb87d9e82cf6d753e6676",
+      "price": 971782,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-215",
+      "departure_time": "10:20",
+      "arrival_time": "12:10",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-215",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "10:20",
+          "arrival_time": "12:10",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "d8a7ddf13968e0e7dab7df586d9e7768",
+      "price": 971782,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-217",
+      "departure_time": "21:00",
+      "arrival_time": "22:50",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-217",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "21:00",
+          "arrival_time": "22:50",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "733739d33bfbc8c03fde985dba5f91e8",
+      "price": 971782,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-227",
+      "departure_time": "11:10",
+      "arrival_time": "13:00",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-227",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "11:10",
+          "arrival_time": "13:00",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "4dd0b69fc793d0ff9637548993f50376",
+      "price": 1001923,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-6421",
+      "departure_time": "09:10",
+      "arrival_time": "11:05",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-6421",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "09:10",
+          "arrival_time": "11:05",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "2ad23069d45ac3817f4b60aa0b353040",
+      "price": 1079738,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-7265",
+      "departure_time": "19:10",
+      "arrival_time": "21:00",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-7265",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "19:10",
+          "arrival_time": "21:00",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "9336ffcfea0022a3220d2700b5975ad6",
+      "price": 1079738,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1265",
+      "departure_time": "13:05",
+      "arrival_time": "14:55",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1265",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "13:05",
+          "arrival_time": "14:55",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "7239785934d4df37e87e8dc6a2c262b1",
+      "price": 1079738,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1267",
+      "departure_time": "16:40",
+      "arrival_time": "18:30",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1267",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "16:40",
+          "arrival_time": "18:30",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "d73ced9392b36a712947b2c9ddfc9a67",
+      "price": 1079738,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1269",
+      "departure_time": "21:20",
+      "arrival_time": "23:10",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1269",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "21:20",
+          "arrival_time": "23:10",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "5a50852612e000dd1127e4e5c2a47065",
+      "price": 1115965,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-211",
+      "departure_time": "13:45",
+      "arrival_time": "15:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-211",
+          "from": "VII",
+          "to": "SGN",
+          "departure_time": "13:45",
+          "arrival_time": "15:35",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "05dca86a83c8ca9c296a3feb916f2d26",
+      "price": 1591970,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-221",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "21:00",
+          "arrival_time": "23:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "8ddd48dbd6cd3305d26f9a0a9eabbc52",
+      "price": 2075017,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-211",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "11:00",
+          "arrival_time": "13:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "ea23d3526e59dad194a2a6f07c4ceecb",
+      "price": 2085947,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-779",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "21:55",
+          "arrival_time": "00:05",
+          "departure_date": "22/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "ffebe3e052bbb6af615ab47cff214513",
+      "price": 2085947,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "Vietravel Airlines",
+          "airline_code": "VU",
+          "flight_number": "VU-787",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "20:00",
+          "arrival_time": "22:10",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "f9bddf9605babc3ca75196c382ec758f",
+      "price": 2151059,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-161",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "20:55",
+          "arrival_time": "23:05",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "9d3aee28f70e4f2ca8615c18df2ee099",
+      "price": 2151059,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-123",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "05:30",
+          "arrival_time": "07:40",
+          "departure_date": "22/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "0dff2ffff12aa391917a5c892a26a9a7",
+      "price": 2154471,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-155",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "18:55",
+          "arrival_time": "21:05",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "1ea7499a6aca9a79d304f7e3d3d5bcfe",
+      "price": 2172431,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-805",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "05:45",
+          "arrival_time": "07:55",
+          "departure_date": "22/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "a254366da19c75cd48126ad6f38a18ae",
+      "price": 2172431,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-879",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "20:30",
+          "arrival_time": "22:40",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "59cf244c874d98f65984d553c5f099cc",
+      "price": 2406467,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-741",
+      "departure_time": "07:20",
+      "arrival_time": "08:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "BMV",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-741",
+          "from": "VII",
+          "to": "BMV",
+          "departure_time": "07:20",
+          "arrival_time": "08:45",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1415",
+          "from": "BMV",
+          "to": "SGN",
+          "departure_time": "19:45",
+          "arrival_time": "20:40",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "f738ea011e326d4901b4acf9a005fdd1",
+      "price": 2406861,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-871",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "19:15",
+          "arrival_time": "21:25",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "67d5ac152e5fcbccd136f23a5d8974c5",
+      "price": 2406861,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-883",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "21:55",
+          "arrival_time": "00:05",
+          "departure_date": "22/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "32417f11dcd8d34febbdf3e64db38ff3",
+      "price": 2417695,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-869",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "18:45",
+          "arrival_time": "20:55",
+          "departure_date": "22/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "93ca5b5876767709beaaa497d2fa06c8",
+      "price": 2516789,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-741",
+      "departure_time": "07:20",
+      "arrival_time": "08:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "BMV",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-741",
+          "from": "VII",
+          "to": "BMV",
+          "departure_time": "07:20",
+          "arrival_time": "08:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-351",
+          "from": "BMV",
+          "to": "SGN",
+          "departure_time": "08:00",
+          "arrival_time": "09:00",
+          "departure_date": "22/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "c8e091ac5ea9884852f492ed49eb30fe",
+      "price": 2566037,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-143",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "14:05",
+          "arrival_time": "16:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "f670ea78f9c1ff4ba654b28fba849cfc",
+      "price": 2597951,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-869",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "18:45",
+          "arrival_time": "20:55",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "af58e8c27288f31394757ac6e9a69bc5",
+      "price": 2597951,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-855",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "15:30",
+          "arrival_time": "17:40",
+          "departure_date": "22/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "858b10b55b73faac7aa3e982911eff36",
+      "price": 2599415,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-741",
+      "departure_time": "07:20",
+      "arrival_time": "08:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "BMV",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-741",
+          "from": "VII",
+          "to": "BMV",
+          "departure_time": "07:20",
+          "arrival_time": "08:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-353",
+          "from": "BMV",
+          "to": "SGN",
+          "departure_time": "19:25",
+          "arrival_time": "20:25",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "83851c3909c3af2f82c7f965be46702d",
+      "price": 2757521,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 0,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        },
+        {
+          "airline": "SUN PhuQuoc AIRWAYS",
+          "airline_code": "9G",
+          "flight_number": "9G-855",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "15:30",
+          "arrival_time": "17:40",
+          "departure_date": "21/10/2026",
+          "stops": 0
+        }
+      ]
+    },
+    {
+      "id": "617e4ed74b479c8b80ff1d248f9da850",
+      "price": 2902656,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-267",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "22:00",
+          "arrival_time": "00:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "d43de14b197bcfdc4deb20112c6ae13f",
+      "price": 2902656,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-219",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "19:00",
+          "arrival_time": "21:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "8820c5624e2b0a3be0f22bb7b84c4b0e",
+      "price": 2940230,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1531",
+      "departure_time": "15:55",
+      "arrival_time": "17:25",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "CXR",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1531",
+          "from": "VII",
+          "to": "CXR",
+          "departure_time": "15:55",
+          "arrival_time": "17:25",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-6151",
+          "from": "CXR",
+          "to": "SGN",
+          "departure_time": "20:55",
+          "arrival_time": "22:05",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "eda52282fbd4cc53daf5b3c51773fff8",
+      "price": 3086005,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1531",
+      "departure_time": "15:55",
+      "arrival_time": "17:25",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "CXR",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1531",
+          "from": "VII",
+          "to": "CXR",
+          "departure_time": "15:55",
+          "arrival_time": "17:25",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1341",
+          "from": "CXR",
+          "to": "SGN",
+          "departure_time": "08:40",
+          "arrival_time": "09:45",
+          "departure_date": "22/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "e6ce9c004bf8bd38f26d00a73de1209b",
+      "price": 3508570,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-6025",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "22:55",
+          "arrival_time": "01:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "513b0e1f1976edf5c25a9228334c9235",
+      "price": 3508570,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-221",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "21:00",
+          "arrival_time": "23:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "59674a5a530f89ef833cdc11f0acdd28",
+      "price": 3540259,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-6025",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "22:55",
+          "arrival_time": "01:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "4ab1e06caa4ce6d402a394460a0dbdb3",
+      "price": 3894485,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-259",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "18:00",
+          "arrival_time": "20:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "6ff3e1cd1bad151d020e1448dafc48ae",
+      "price": 3917647,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-219",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "19:00",
+          "arrival_time": "21:10",
+          "departure_date": "22/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "8cd3d33ca6959fc75c4375c5e8449fda",
+      "price": 4202019,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-259",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "18:00",
+          "arrival_time": "20:10",
+          "departure_date": "22/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "4fd027206f9e1a362f32ca5bd8ddcca4",
+      "price": 4202019,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-243",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "06:00",
+          "arrival_time": "08:10",
+          "departure_date": "22/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "b28ee07e697bb54db331fc06d445595c",
+      "price": 4263440,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-741",
+      "departure_time": "07:20",
+      "arrival_time": "08:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "BMV",
+      "stops": 2,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-741",
+          "from": "VII",
+          "to": "BMV",
+          "departure_time": "07:20",
+          "arrival_time": "08:45",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-1492",
+          "from": "BMV",
+          "to": "HAN",
+          "departure_time": "12:45",
+          "arrival_time": "14:30",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-155",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "18:55",
+          "arrival_time": "21:05",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        }
+      ]
+    },
+    {
+      "id": "ba6bf37db30ec142ea4ce7801942a8d9",
+      "price": 4499517,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1718",
+      "departure_time": "18:50",
+      "arrival_time": "19:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1718",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "18:50",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-207",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "07:00",
+          "arrival_time": "09:10",
+          "departure_date": "22/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "0537b3bf85da2ad17e7ee9917ba379fd",
+      "price": 4663193,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-257",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "17:30",
+          "arrival_time": "19:45",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "abdff300e01b573314248c87e760afe2",
+      "price": 4680140,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-741",
+      "departure_time": "07:20",
+      "arrival_time": "08:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "BMV",
+      "stops": 2,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-741",
+          "from": "VII",
+          "to": "BMV",
+          "departure_time": "07:20",
+          "arrival_time": "08:45",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-1492",
+          "from": "BMV",
+          "to": "HAN",
+          "departure_time": "12:45",
+          "arrival_time": "14:30",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-151",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "16:50",
+          "arrival_time": "19:00",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        }
+      ]
+    },
+    {
+      "id": "934330325388d18d00d3960a99f70e26",
+      "price": 4913315,
+      "currency": "VND",
+      "airline": "VietJet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ-741",
+      "departure_time": "07:20",
+      "arrival_time": "08:45",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "BMV",
+      "stops": 2,
+      "segments": [
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-741",
+          "from": "VII",
+          "to": "BMV",
+          "departure_time": "07:20",
+          "arrival_time": "08:45",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-1492",
+          "from": "BMV",
+          "to": "HAN",
+          "departure_time": "12:45",
+          "arrival_time": "14:30",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "VietJet Air",
+          "airline_code": "VJ",
+          "flight_number": "VJ-1127",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "19:20",
+          "arrival_time": "21:30",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        }
+      ]
+    },
+    {
+      "id": "38b2343406982ed8fc97d36c54b9fffe",
+      "price": 4915396,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 2,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-177",
+          "from": "HAN",
+          "to": "DAD",
+          "departure_time": "16:10",
+          "arrival_time": "17:35",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-143",
+          "from": "DAD",
+          "to": "SGN",
+          "departure_time": "21:05",
+          "arrival_time": "22:40",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        }
+      ]
+    },
+    {
+      "id": "23e9c78f66ac6cf8ca4d4d6ad5b61028",
+      "price": 5203629,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 2,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-167",
+          "from": "HAN",
+          "to": "DAD",
+          "departure_time": "10:55",
+          "arrival_time": "12:20",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-143",
+          "from": "DAD",
+          "to": "SGN",
+          "departure_time": "21:05",
+          "arrival_time": "22:40",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        }
+      ]
+    },
+    {
+      "id": "406e2ba82d25fdf1590fe70de46ee6c5",
+      "price": 5219069,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-213",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "13:00",
+          "arrival_time": "15:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "870706f3bbab31c61afc1e44d5005322",
+      "price": 5473846,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 2,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-7051",
+          "from": "HAN",
+          "to": "DAD",
+          "departure_time": "13:50",
+          "arrival_time": "15:15",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-137",
+          "from": "DAD",
+          "to": "SGN",
+          "departure_time": "17:55",
+          "arrival_time": "19:30",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        }
+      ]
+    },
+    {
+      "id": "1797d008f9852b37ddeb41711332ea69",
+      "price": 5474617,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 1,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-251",
+          "from": "HAN",
+          "to": "SGN",
+          "departure_time": "12:00",
+          "arrival_time": "14:10",
+          "departure_date": "21/10/2026",
+          "stops": 1
+        }
+      ]
+    },
+    {
+      "id": "8173f43b52e0376ffb3c68577cac6d74",
+      "price": 5767226,
+      "currency": "VND",
+      "airline": "Vietnam Airlines",
+      "airline_code": "VN",
+      "flight_number": "VN-1716",
+      "departure_time": "08:20",
+      "arrival_time": "09:15",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "HAN",
+      "stops": 2,
+      "segments": [
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-1716",
+          "from": "VII",
+          "to": "HAN",
+          "departure_time": "08:20",
+          "arrival_time": "09:15",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-167",
+          "from": "HAN",
+          "to": "DAD",
+          "departure_time": "10:55",
+          "arrival_time": "12:20",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        },
+        {
+          "airline": "Vietnam Airlines",
+          "airline_code": "VN",
+          "flight_number": "VN-6037",
+          "from": "DAD",
+          "to": "SGN",
+          "departure_time": "13:50",
+          "arrival_time": "15:25",
+          "departure_date": "21/10/2026",
+          "stops": 2
+        }
+      ]
+    }
+  ]
+}

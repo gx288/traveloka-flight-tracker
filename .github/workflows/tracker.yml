@@ -1,0 +1,89 @@
+name: Traveloka Flight Price Tracker
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Chạy vào phút 0 mỗi giờ
+  
+  workflow_dispatch:      # Kích hoạt thủ công hoặc từ webhook cron-job.org
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "flight-tracker"
+  cancel-in-progress: false
+
+jobs:
+  track-price:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🛡️ Cài đặt Cloudflare WARP để đổi IP (Bypass 405 Datacenter)
+        run: |
+          curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+          echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ noble main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+          sudo apt update
+          sudo apt install -y cloudflare-warp
+          sudo warp-cli --accept-tos registration new || true
+          sudo warp-cli --accept-tos mode warp || true
+          sudo warp-cli --accept-tos connect || true
+          sleep 3
+          echo "Public IP sau khi kết nối WARP:"
+          curl -s https://api.ipify.org || true
+          echo ""
+
+      - name: 🐍 Cài đặt Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: 📦 Cài đặt thư viện Python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 🌐 Cài đặt trình duyệt Playwright Chromium & dependencies
+        run: |
+          playwright install --with-deps chromium
+
+      - name: 🚀 Chạy kịch bản quét giá vé Traveloka
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" python tracker.py
+
+      - name: 💾 Lưu lịch sử giá và đẩy lên GitHub (Commit & Push)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/history.json data/latest.json index.html config.json
+          if git diff --staged --quiet; then
+            echo "Không có thay đổi dữ liệu, bỏ qua commit."
+          else
+            git commit -m "chore(tracker): cập nhật dữ liệu lịch sử giá vé [skip ci]"
+            git pull --rebase origin ${{ github.ref_name }} || true
+            git push origin HEAD:${{ github.ref_name }}
+          fi
+
+      - name: 🌐 Cấu hình GitHub Pages
+        uses: actions/configure-pages@v5
+        continue-on-error: true
+
+      - name: 📤 Upload Artifact GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        continue-on-error: true
+        with:
+          path: '.'
+
+      - name: 🚀 Triển khai lên GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        continue-on-error: true

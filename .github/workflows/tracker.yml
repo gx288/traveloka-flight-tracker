@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: "flight-tracker"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   track-price:

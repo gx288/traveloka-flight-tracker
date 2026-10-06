@@ -47,7 +47,7 @@
                         <span class="w-2 h-2 rounded-full bg-blue-400"></span>
                         Đang theo dõi
                     </span>
-                    <span class="text-xs text-slate-400 font-mono">Cập nhật: 2026-10-06 12:32:44</span>
+                    <span class="text-xs text-slate-400 font-mono">Cập nhật: 2026-10-06 12:41:52</span>
                     <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Nguồn: Abay Engine (Chuẩn giá nội địa)</span>
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
@@ -932,8 +932,8 @@
                 <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">2,684,000 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 2,550,000 đ | Phí: 899,000 đ</div>
+                <div class="text-base text-amber-400 font-semibold">3,510,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 2,550,000 đ | Phí: 960,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -1063,6 +1063,14 @@
                     <tbody>
                         
         <tr class="border-b border-slate-800/80 hover:bg-slate-800/30 text-sm">
+            <td class="py-2.5 px-4 font-mono text-slate-400">2026-10-06 12:41:52</td>
+            <td class="py-2.5 px-4 font-semibold text-slate-200">970,000 đ</td>
+            <td class="py-2.5 px-4 text-slate-300">Vietravel Airlines (VU551)</td>
+            <td class="py-2.5 px-4 text-slate-400">30 chuyến</td>
+            <td class="py-2.5 px-4 text-right"><span class="text-slate-400">Bình thường</span></td>
+        </tr>
+        
+        <tr class="border-b border-slate-800/80 hover:bg-slate-800/30 text-sm">
             <td class="py-2.5 px-4 font-mono text-slate-400">2026-10-06 12:32:44</td>
             <td class="py-2.5 px-4 font-semibold text-slate-200">970,000 đ</td>
             <td class="py-2.5 px-4 text-slate-300">Vietravel Airlines (VU551)</td>
@@ -1174,14 +1182,6 @@
             <td class="py-2.5 px-4 text-right"><span class="text-slate-400">Bình thường</span></td>
         </tr>
         
-        <tr class="border-b border-slate-800/80 hover:bg-slate-800/30 text-sm">
-            <td class="py-2.5 px-4 font-mono text-slate-400">2026-10-06 09:13:26</td>
-            <td class="py-2.5 px-4 font-semibold text-slate-200">855,730 đ</td>
-            <td class="py-2.5 px-4 text-slate-300">Vietravel Airlines (VU-551)</td>
-            <td class="py-2.5 px-4 text-slate-400">53 chuyến</td>
-            <td class="py-2.5 px-4 text-right"><span class="text-slate-400">Bình thường</span></td>
-        </tr>
-        
                     </tbody>
                 </table>
             </div>
@@ -1216,9 +1216,9 @@
         }
 
         const ctx = document.getElementById('priceChart').getContext('2d');
-        const labels = ["10-06 09:13:26", "10-06 09:38:43", "10-06 09:50:20", "10-06 09:55:54", "10-06 10:02:07", "10-06 10:50:00", "10-06 10:53:56", "10-06 11:29:43", "10-06 11:30:53", "10-06 11:41:46", "10-06 11:51:58", "10-06 12:02:34", "10-06 12:11:57", "10-06 12:22:19", "10-06 12:32:44"];
-        const prices = [855730, 855730, 855730, 855730, 855730, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000];
-        const thresholds = [700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000];
+        const labels = ["10-06 09:13:26", "10-06 09:38:43", "10-06 09:50:20", "10-06 09:55:54", "10-06 10:02:07", "10-06 10:50:00", "10-06 10:53:56", "10-06 11:29:43", "10-06 11:30:53", "10-06 11:41:46", "10-06 11:51:58", "10-06 12:02:34", "10-06 12:11:57", "10-06 12:22:19", "10-06 12:32:44", "10-06 12:41:52"];
+        const prices = [855730, 855730, 855730, 855730, 855730, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000];
+        const thresholds = [700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000];
 
         new Chart(ctx, {
             type: 'line',

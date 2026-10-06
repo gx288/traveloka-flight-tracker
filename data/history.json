@@ -3026,5 +3026,32 @@
     },
     "source": "Abay Engine (Chuẩn giá nội địa)",
     "alert_sent": true
+  },
+  {
+    "timestamp": "2026-10-07 04:52:18",
+    "min_price": 970000,
+    "flight_count": 30,
+    "cheapest_flight": {
+      "id": "abay_VU_VU551_15:40_outbound",
+      "price": 970000,
+      "base_price": 198000,
+      "tax_fee": 772000,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU551",
+      "departure_time": "15:40",
+      "arrival_time": "17:35",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "leg_type": "outbound",
+      "leg_display": "Chiều đi",
+      "booking_url_abay": "https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026",
+      "booking_url_traveloka": "https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY"
+    },
+    "source": "Abay Engine (Chuẩn giá nội địa)",
+    "alert_sent": false
   }
 ]

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-06 12:51:41",
+  "updated_at": "2026-10-06 13:02:58",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "round_trip",
@@ -627,9 +627,9 @@
     },
     {
       "id": "abay_VU_VU550_13:15_inbound",
-      "price": 3510000,
+      "price": 2684000,
       "base_price": 2550000,
-      "tax_fee": 960000,
+      "tax_fee": 899000,
       "currency": "VND",
       "airline": "Vietravel Airlines",
       "airline_code": "VU",

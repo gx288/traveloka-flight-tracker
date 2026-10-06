@@ -24,12 +24,17 @@ from concurrent.futures import ThreadPoolExecutor
 # Fix Windows console encoding
 if sys.platform == "win32":
     try:
-        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
-        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+        sys.stderr.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
 
 import requests
+
+try:
+    from proxy_manager import get_proxy_for_playwright
+except ImportError:
+    get_proxy_for_playwright = lambda cfg: None
 
 VIETNAM_TZ = timezone(timedelta(hours=7))
 
@@ -91,6 +96,12 @@ def load_config():
             "min_departure_time": "06:00",
             "max_departure_time": "23:00"
         },
+        "proxy": {
+            "enabled": False,
+            "mode": "auto",
+            "custom_proxy": "",
+            "timeout": 3
+        },
         "telegram": {
             "enabled": True,
             "bot_token": "",
@@ -120,6 +131,11 @@ def load_config():
         default_config["return_date"] = os.getenv("RETURN_DATE")
     if os.getenv("PRICE_THRESHOLD"):
         default_config["price_threshold"] = int(os.getenv("PRICE_THRESHOLD"))
+    if os.getenv("USE_PROXY"):
+        default_config["proxy"]["enabled"] = os.getenv("USE_PROXY").lower() in ["1", "true", "yes"]
+    if os.getenv("CUSTOM_PROXY"):
+        default_config["proxy"]["custom_proxy"] = os.getenv("CUSTOM_PROXY")
+        default_config["proxy"]["enabled"] = True
     if os.getenv("TELEGRAM_BOT_TOKEN"):
         default_config["telegram"]["bot_token"] = os.getenv("TELEGRAM_BOT_TOKEN")
     if os.getenv("TELEGRAM_CHAT_ID"):
@@ -413,12 +429,18 @@ async def scrape_traveloka(url: str, cfg: dict):
 
         user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36" if sys.platform == "win32" else "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
-        context = await browser.new_context(
-            user_agent=user_agent,
-            viewport={"width": 1920, "height": 1080},
-            locale="vi-VN",
-            extra_http_headers={"Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7"}
-        )
+        proxy_opts = get_proxy_for_playwright(cfg)
+        context_kwargs = {
+            "user_agent": user_agent,
+            "viewport": {"width": 1920, "height": 1080},
+            "locale": "vi-VN",
+            "extra_http_headers": {"Accept-Language": "vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7"}
+        }
+        if proxy_opts:
+            context_kwargs["proxy"] = proxy_opts
+            print(f"[*] Đang áp dụng Proxy cho Traveloka: {proxy_opts.get('server')}")
+
+        context = await browser.new_context(**context_kwargs)
         
         await context.add_init_script("""
             Object.defineProperty(navigator, 'webdriver', {get: () => undefined});

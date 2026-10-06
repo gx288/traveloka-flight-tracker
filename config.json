@@ -7,6 +7,7 @@
     "return_date": "Ngày về (định dạng DD-MM-YYYY, ví dụ: 22-10-2026)",
     "price_threshold": "Ngưỡng giá gửi tin nhắn Telegram (VD: 700000 = 700k)",
     "time_filter": "Lọc giờ cất cánh (enabled: true/false, min_departure_time, max_departure_time)",
+    "proxy": "Cấu hình proxy cho Traveloka: enabled (bật/tắt), mode ('auto': tự động cào proxy sống từ GitHub / 'custom': dùng proxy riêng), custom_proxy ('http://user:pass@ip:port')",
     "telegram": "Bot token & Chat ID được bảo mật tự động qua GitHub Secrets (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)"
   },
   "trip_type": "round_trip",
@@ -25,6 +26,12 @@
     "enabled": false,
     "min_departure_time": "06:00",
     "max_departure_time": "23:00"
+  },
+  "proxy": {
+    "enabled": false,
+    "mode": "auto",
+    "custom_proxy": "",
+    "timeout": 3
   },
   "telegram": {
     "enabled": true,

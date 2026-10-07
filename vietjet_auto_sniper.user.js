@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Vietjet 0đ Auto-Sniper & Real-time Flight Auditor
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      1.3.1
-// @description  Tự động bắt vé 0đ, soi chuẩn xác Tên khách + Ngày đi + Ngày về khứ hồi, cảnh báo đỏ nếu dính phí dịch vụ 216k/400k hoặc thiếu chiều về!
+// @version      1.4.0
+// @description  Tự động bắt vé 0đ, tự động click "Không, cảm ơn" & "Xác nhận" gỡ sạch hành lý 400k/bảo hiểm, soi chuẩn xác Tên khách + Khứ hồi, báo động góc màn hình!
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
 // @match        https://*.abay.vn/*
@@ -13,9 +13,9 @@
 (function() {
     'use strict';
 
-    console.log("⚡ [Vietjet Sniper v1.3.1] Khởi chạy Auditor kiểm tra vé & diệt phụ phí...");
+    console.log("⚡ [Vietjet Sniper v1.4.0] Khởi chạy Auto-Clicker diệt phụ phí & Auditor...");
 
-    // ----------------- CẤU HÌNH THÔNG TIN CHUẨN CẦN KIỂM TRA -----------------
+    // ----------------- CẤU HÌNH THÔNG TIN CHUẨN -----------------
     const TARGET = {
         passengerRegex: /TRAN\s*THI\s*KIM\s*TINH|TRẦN\s*THỊ\s*KIM\s*TĨNH/i,
         departDateRegex: /21\/10\/2026|21\s*tháng\s*10/i,
@@ -57,6 +57,15 @@
         setTimeout(() => playTone(220, 0.5, "sawtooth"), 250);
     }
 
+    // Helper kích hoạt click chuẩn xác cho React / Material-UI
+    function triggerClick(el) {
+        if (!el) return;
+        el.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+        el.click();
+        el.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    }
+
     // ----------------- 1. TỰ ĐỘNG BẮT VÉ 0Đ -----------------
     function pickZeroDongFlight() {
         const cells = document.querySelectorAll('td, div, button, span');
@@ -68,52 +77,117 @@
                     el.style.border = "3px solid #22c55e";
                     el.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
                     console.log("🎯 [Sniper] PHÁT HIỆN VÉ 0 ĐỒNG! Đang tự động click chọn...");
-                    el.click();
+                    triggerClick(el);
                     soundSuccess();
                 }
             }
         });
     }
 
-    // ----------------- 2. BẢO HIỂM: TỰ ĐỘNG GỠ BỎ TÍCH -----------------
+    // ----------------- 2. TỰ ĐỘNG CLICK "KHÔNG, CẢM ƠN" & "XÁC NHẬN" (DRAWER BẢO HIỂM / HÀNH LÝ) -----------------
+    let lastTabSwitchTime = 0;
+
+    function autoDismissDrawers() {
+        // Tìm Drawer hoặc Dialog trượt từ bên phải ra (MuiDrawer-paper)
+        const drawers = document.querySelectorAll('.MuiDrawer-paper, .MuiDialog-root');
+        drawers.forEach(drawer => {
+            // Nếu drawer không hiển thị thì bỏ qua
+            if (drawer.offsetWidth === 0 || drawer.offsetHeight === 0) return;
+
+            // A. Kiểm tra và chuyển Tab nếu là vé khứ hồi (Chuyến đi & Chuyến về)
+            const tabs = drawer.querySelectorAll('button[role="tab"]');
+            if (tabs.length > 1) {
+                const now = Date.now();
+                // Nếu Tab 0 đang chọn, xử lý Tab 0 rồi chuyển sang Tab 1
+                if (tabs[0].getAttribute('aria-selected') === 'true' && !drawer.dataset.tab1Handled) {
+                    // Click Không, cảm ơn ở Tab 0
+                    selectNoChoiceInContainer(drawer);
+                    if (now - lastTabSwitchTime > 500) {
+                        lastTabSwitchTime = now;
+                        drawer.dataset.tab1Handled = "true";
+                        console.log("⚡ [Sniper Auto] Đã bỏ hành lý Chuyến đi, đang chuyển sang Chuyến về...");
+                        triggerClick(tabs[1]);
+                        return;
+                    }
+                } else if (tabs[1].getAttribute('aria-selected') === 'true' && !drawer.dataset.tab2Handled) {
+                    // Click Không, cảm ơn ở Tab 1
+                    selectNoChoiceInContainer(drawer);
+                    drawer.dataset.tab2Handled = "true";
+                    console.log("⚡ [Sniper Auto] Đã bỏ hành lý Chuyến về!");
+                }
+            } else {
+                // Drawer 1 chiều hoặc Bảo hiểm
+                selectNoChoiceInContainer(drawer);
+            }
+
+            // B. Tự động click nút "Xác nhận"
+            const buttons = drawer.querySelectorAll('button');
+            buttons.forEach(btn => {
+                const bTxt = (btn.innerText || "").trim().toLowerCase();
+                if (bTxt.includes("xác nhận")) {
+                    if (!btn.dataset.autoClickedConfirm) {
+                        btn.dataset.autoClickedConfirm = "true";
+                        setTimeout(() => {
+                            triggerClick(btn);
+                            console.log("⚡ [Sniper Auto] Đã tự động click nút: XÁC NHẬN!");
+                        }, 300);
+                    }
+                }
+            });
+        });
+
+        // C. Tự động mở thẻ Hành lý nếu thấy Vietjet đang tự gài Gói 20kg trên trang select-service
+        if (window.location.href.includes("select-service")) {
+            const isDrawerOpen = document.querySelector('.MuiDrawer-paperAnchorRight');
+            if (!isDrawerOpen) {
+                const cards = document.querySelectorAll('div');
+                cards.forEach(card => {
+                    const txt = card.innerText || "";
+                    if (txt.includes("Chọn hành lý") && (txt.includes("Gói 20kg") || txt.includes("200,000 VND") || txt.includes("400,000 VND"))) {
+                        if (!card.dataset.autoOpenedBySniper) {
+                            card.dataset.autoOpenedBySniper = "true";
+                            console.log("⚡ [Sniper Auto] Phát hiện hành lý 20kg, tự động click mở Drawer để gỡ...");
+                            triggerClick(card);
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    // Helper: Tìm và click radio "Không, cảm ơn" (value="noChoise")
+    function selectNoChoiceInContainer(container) {
+        // Tìm radio input theo value="noChoise"
+        const noChoiceInputs = container.querySelectorAll('input[type="radio"][value="noChoise"], input[value="noChoise"]');
+        noChoiceInputs.forEach(inp => {
+            const label = inp.closest('label') || inp.parentElement;
+            if (!inp.checked) {
+                console.log("⚡ [Sniper Auto] Tự động click: Không, cảm ơn!");
+                triggerClick(label || inp);
+            }
+        });
+
+        // Tìm thêm theo nhãn chữ "Không, cảm ơn"
+        const labels = container.querySelectorAll('label, span');
+        labels.forEach(lbl => {
+            const t = (lbl.innerText || "").trim().toLowerCase();
+            if (t === "không, cảm ơn" || t === "không, cám ơn") {
+                const radio = lbl.querySelector('input[type="radio"]') || lbl;
+                triggerClick(radio);
+            }
+        });
+    }
+
+    // ----------------- 3. BẢO HIỂM: TỰ ĐỘNG GỠ CHECKBOX TRÊN TOÀN TRANG -----------------
     function uncheckInsurance() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(cb => {
             const label = (cb.parentElement ? cb.parentElement.innerText : "").toLowerCase();
             if (label.includes("bảo hiểm") || label.includes("insurance") || label.includes("bảo việt") || label.includes("bảo minh")) {
                 if (cb.checked) {
-                    cb.click();
-                    console.log("⚡ [Sniper] Đã tự động bỏ chọn bảo hiểm phụ thu!");
+                    triggerClick(cb);
+                    console.log("⚡ [Sniper Auto] Đã tự động bỏ chọn checkbox bảo hiểm!");
                 }
-            }
-        });
-    }
-
-    // ----------------- 3. TRANG DỊCH VỤ: DIỆT BẪY HÀNH LÝ 400K -----------------
-    function handleServiceAddons() {
-        if (!window.location.href.includes("select-service")) return;
-
-        // Nếu mở popup chọn hành lý -> tự chọn 0kg
-        const modalOptions = document.querySelectorAll('.MuiDialog-root div, .MuiDrawer-root div, div[role="dialog"] div');
-        modalOptions.forEach(opt => {
-            const optText = (opt.innerText || "").toLowerCase().trim();
-            if (optText === "không có hành lý" || optText === "không chọn hành lý" || optText === "0 kg" || optText === "0kg (0 vnd)") {
-                if (!opt.dataset.sniperSelected) {
-                    opt.dataset.sniperSelected = "true";
-                    opt.style.border = "2px solid #22c55e";
-                    opt.click();
-                    console.log("⚡ [Sniper] Đã tự động chọn: Không có hành lý (0đ)!");
-                }
-            }
-        });
-
-        // Highlight nút Đi tiếp
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(btn => {
-            if ((btn.innerText || "").includes("Đi tiếp")) {
-                btn.style.boxShadow = "0 0 15px #22c55e";
-                btn.style.transform = "scale(1.05)";
-                btn.style.transition = "all 0.3s ease";
             }
         });
     }
@@ -171,7 +245,7 @@
             }
         }
 
-        // --- D. Kiểm tra Phí dịch vụ / Hành lý (Soi chính xác con số) ---
+        // --- D. Kiểm tra Phí dịch vụ / Hành lý (Soi số tiền thực tế) ---
         let detectedServiceFee = 0;
         const allTextElements = document.querySelectorAll('h4, div, span, p');
         allTextElements.forEach(el => {
@@ -186,8 +260,8 @@
         });
 
         if (detectedServiceFee > 0 && (isService || isPayment)) {
-            errors.push(`DÍNH PHÍ DỊCH VỤ / HÀNH LÝ: ${detectedServiceFee.toLocaleString('vi-VN')} đ!`);
-            items.push({ status: "error", text: `Phí Dịch vụ: ${detectedServiceFee.toLocaleString('vi-VN')} đ (CHƯA GỠ)` });
+            errors.push(`DÍNH PHÍ DỊCH VỤ: ${detectedServiceFee.toLocaleString('vi-VN')} đ!`);
+            items.push({ status: "error", text: `Phí Dịch vụ: ${detectedServiceFee.toLocaleString('vi-VN')} đ (Đang gỡ...)` });
         } else if (isService || isPayment) {
             items.push({ status: "ok", text: "Phí Dịch vụ: 0 đ (Sạch)" });
         }
@@ -261,14 +335,24 @@
                 }
             </style>
         `;
+
+        // Highlight nút "Đi tiếp" trên trang dịch vụ
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            if ((btn.innerText || "").includes("Đi tiếp")) {
+                btn.style.boxShadow = "0 0 15px #22c55e";
+                btn.style.transform = "scale(1.05)";
+                btn.style.transition = "all 0.3s ease";
+            }
+        });
     }
 
     // ----------------- VÒNG LẶP LIÊN TỤC -----------------
     setInterval(() => {
         uncheckInsurance();
         pickZeroDongFlight();
-        handleServiceAddons();
+        autoDismissDrawers();
         auditAndRenderWidget();
-    }, 600);
+    }, 400);
 
 })();

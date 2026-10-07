@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-07 07:21:43",
+  "updated_at": "2026-10-07 07:32:02",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "round_trip",
@@ -127,9 +127,9 @@
     },
     {
       "id": "abay_BL_VN6421_09:10_outbound",
-      "price": 1137000,
+      "price": 1017000,
       "base_price": 416000,
-      "tax_fee": 721000,
+      "tax_fee": 601000,
       "currency": "VND",
       "airline": "Pacific Airlines",
       "airline_code": "BL",

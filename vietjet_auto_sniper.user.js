@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Vietjet 0đ Auto-Sniper, Flight Auditor & One-Click VietQR
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      1.6.0
-// @description  Tự động bắt vé 0đ, tự mở & hủy hành lý 400k + bảo hiểm du lịch, tự chọn VietQR (không phụ thuộc URL), soi chuẩn Tên khách + Khứ hồi!
+// @version      1.7.0
+// @description  Tự động bắt vé 0đ, tự hủy hành lý 400k + bảo hiểm, tự tích điều khoản trang Passengers & Payment, tự chọn VietQR, soi chuẩn Tên khách + Khứ hồi!
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
 // @match        https://*.abay.vn/*
@@ -13,7 +13,7 @@
 (function() {
     'use strict';
 
-    console.log("⚡ [Vietjet Sniper v1.6.0] Khởi chạy Full Automation (Hành lý + Bảo hiểm + VietQR + Auditor)...");
+    console.log("⚡ [Vietjet Sniper v1.7.0] Khởi chạy Full Automation (Terms Passengers + Bảo hiểm + VietQR + Auditor)...");
 
     // ----------------- CẤU HÌNH THÔNG TIN CHUẨN -----------------
     const TARGET = {
@@ -84,7 +84,59 @@
         });
     }
 
-    // ----------------- 2. TỰ ĐỘNG MỞ & BỎ CHỌN: HÀNH LÝ 400K & BẢO HIỂM DU LỊCH -----------------
+    // ----------------- 2. TỰ ĐỘNG TÍCH CHỌN ĐIỀU KHOẢN (TOÀN TRANG: PASSENGERS & PAYMENT) -----------------
+    function autoTickTermsCheckboxes() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            const parent = cb.closest('label') || cb.closest('.MuiFormControlLabel-root') || cb.closest('div') || cb.parentElement;
+            const text = (parent ? parent.innerText : "").toLowerCase();
+
+            // Tuyệt đối không tích bảo hiểm
+            if (text.includes("bảo hiểm") || text.includes("insurance")) return;
+
+            // Bắt chính xác điều khoản trên trang Passengers và trang Payment
+            if (text.includes("tôi đã đọc") ||
+                text.includes("quyền riêng tư") ||
+                text.includes("điều lệ vận chuyển") ||
+                text.includes("điều kiện vé") ||
+                text.includes("vật dụng bị cấm") ||
+                text.includes("đồng ý với") ||
+                text.includes("điều khoản") ||
+                text.includes("chính sách") ||
+                text.includes("terms") ||
+                text.includes("conditions")) {
+                
+                if (!cb.checked) {
+                    console.log("⚡ [Sniper Auto] Đã tự động tích chọn: Điều khoản quy định!");
+                    triggerClick(cb);
+                    if (cb.closest('label')) {
+                        triggerClick(cb.closest('label'));
+                    }
+                }
+            }
+        });
+
+        // Highlight nút "Đi tiếp" trên trang Passengers
+        const isPassenger = document.body && (
+            document.body.innerText.includes("Thông tin hành khách") ||
+            document.body.innerText.includes("Danh xưng") ||
+            window.location.href.includes("passenger")
+        );
+        if (isPassenger) {
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(btn => {
+                const txt = (btn.innerText || "").trim().toLowerCase();
+                if (txt === "đi tiếp" || txt.includes("đi tiếp") || txt === "tiếp tục") {
+                    btn.style.boxShadow = "0 0 20px #22c55e";
+                    btn.style.transform = "scale(1.04)";
+                    btn.style.transition = "all 0.3s ease";
+                    btn.style.fontWeight = "bold";
+                }
+            });
+        }
+    }
+
+    // ----------------- 3. TỰ ĐỘNG MỞ & BỎ CHỌN: HÀNH LÝ 400K & BẢO HIỂM DU LỊCH -----------------
     let lastTabSwitchTime = 0;
 
     function autoDismissDrawers() {
@@ -134,7 +186,7 @@
                     }
                 }
             });
-            return; // Đang thao tác trong Drawer thì tạm dừng quét mở mới
+            return;
         }
 
         // --- B. NẾU DRAWER CHƯA MỞ: TUẦN TỰ MỞ HÀNH LÝ RỒI ĐẾN BẢO HIỂM ---
@@ -203,7 +255,7 @@
         });
     }
 
-    // ----------------- 3. TRANG THANH TOÁN: CHỌN VIETQR & TÍCH ĐIỀU KHOẢN (KHÔNG PHỤ THUỘC URL) -----------------
+    // ----------------- 4. TRANG THANH TOÁN: CHỌN VIETQR (KHÔNG PHỤ THUỘC URL) -----------------
     function handlePaymentPage() {
         const isPayment = document.body && (
             document.body.innerText.includes("Phương thức thanh toán") ||
@@ -212,12 +264,11 @@
         );
         if (!isPayment) return;
 
-        // A. Tự động click chọn phương thức "Mobile Banking VietQR"
+        // Tự động click chọn phương thức "Mobile Banking VietQR"
         const allElements = document.querySelectorAll('span, div, img');
         allElements.forEach(el => {
             const txt = (el.innerText || "").trim();
             const src = el.getAttribute('src') || "";
-            // Tìm theo text hoặc theo logo vietqr
             if (txt === "Mobile Banking VietQR" || txt.includes("Mobile Banking VietQR") || src.includes("vietqrtrans")) {
                 const card = el.closest('.MuiPaper-root') || el.closest('div[style*="width: 18%"]') || el.parentElement;
                 if (card && !card.dataset.sniperVietQrSelected) {
@@ -231,29 +282,7 @@
             }
         });
 
-        // B. Tự động tích chọn checkbox Điều khoản
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(cb => {
-            const parent = cb.closest('label') || cb.closest('div') || cb.parentElement;
-            const labelText = (parent ? parent.innerText : "").toLowerCase();
-            if (labelText.includes("bảo hiểm") || labelText.includes("insurance")) return;
-
-            if (labelText.includes("điều khoản") || 
-                labelText.includes("điều kiện") || 
-                labelText.includes("đồng ý") || 
-                labelText.includes("đã đọc") || 
-                labelText.includes("chính sách") ||
-                labelText.includes("quy tắc") ||
-                labelText.includes("terms") ||
-                labelText.includes("conditions")) {
-                if (!cb.checked) {
-                    console.log("⚡ [Sniper Auto] Đã tự động tích chọn Điều khoản!");
-                    triggerClick(cb);
-                }
-            }
-        });
-
-        // C. Highlight nút "Thanh toán"
+        // Highlight nút "Thanh toán"
         const buttons = document.querySelectorAll('button');
         buttons.forEach(btn => {
             const bTxt = (btn.innerText || "").trim().toLowerCase();
@@ -266,7 +295,7 @@
         });
     }
 
-    // ----------------- 4. TRANG CHỦ: HỖ TRỢ NÚT TÌM CHUYẾN BAY -----------------
+    // ----------------- 5. TRANG CHỦ: HỖ TRỢ NÚT TÌM CHUYẾN BAY -----------------
     function handleHomepage() {
         const isHome = document.body && (
             document.body.innerText.includes("Điểm khởi hành") &&
@@ -284,13 +313,11 @@
         });
     }
 
-    // ----------------- 5. AUDITOR GÓC MÀN HÌNH: SOI LỖI VÉ & PHÍ DỊCH VỤ -----------------
+    // ----------------- 6. AUDITOR GÓC MÀN HÌNH: SOI LỖI VÉ & PHÍ DỊCH VỤ -----------------
     function auditAndRenderWidget() {
         const pageText = document.body ? document.body.innerText : "";
         if (!pageText || pageText.length < 50) return;
 
-        const isFlight = pageText.includes("VJ21") || pageText.includes("Airbus");
-        const isPassenger = pageText.includes("Thông tin hành khách") && pageText.includes("Danh xưng");
         const isService = pageText.includes("Chọn hành lý") || pageText.includes("Bảo hiểm du lịch");
         const isPayment = pageText.includes("Phương thức thanh toán") || pageText.includes("Chi tiết thanh toán");
 
@@ -331,7 +358,7 @@
             if (isService || isPayment) {
                 errors.push("Chưa đúng tên khách: TRAN THI KIM TINH!");
                 items.push({ status: "error", text: "Khách: Chưa có tên Kim Tĩnh" });
-            } else if (isPassenger) {
+            } else {
                 items.push({ status: "pending", text: "Khách: Cần điền TRAN THI KIM TINH" });
             }
         }
@@ -436,10 +463,11 @@
     // ----------------- VÒNG LẶP LIÊN TỤC -----------------
     setInterval(() => {
         pickZeroDongFlight();
+        autoTickTermsCheckboxes();
         autoDismissDrawers();
         handlePaymentPage();
         handleHomepage();
         auditAndRenderWidget();
-    }, 400);
+    }, 300);
 
 })();

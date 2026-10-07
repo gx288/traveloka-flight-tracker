@@ -1,4 +1,4 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name         Vietjet 0Ä‘ Sniper v2 (Báº¯t 0Ä‘ + Gá»¡ hÃ nh lÃ½/báº£o hiá»ƒm + VietQR + Auditor)
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
 // @version      2.0.1

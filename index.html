@@ -47,8 +47,8 @@
                         <span class="w-2 h-2 rounded-full bg-blue-400"></span>
                         Đang theo dõi
                     </span>
-                    <span class="text-xs text-slate-400 font-mono">Cập nhật: 2026-10-07 06:33:29</span>
-                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Nguồn: Google Flights / GDS (Dự phòng)</span>
+                    <span class="text-xs text-slate-400 font-mono">Cập nhật: 2026-10-07 07:02:42</span>
+                    <span class="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Nguồn: Abay Engine (Chuẩn giá nội địa)</span>
                 </div>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white flex items-center gap-3">
                     ✈️ Vinh (VII) <span class="text-blue-400 font-light">⇄</span> TP. Hồ Chí Minh (Tân Sơn Nhất) (SGN)
@@ -76,20 +76,20 @@
             <div class="glass-card rounded-2xl p-5 space-y-1 relative overflow-hidden">
                 <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">Rẻ Nhất Chiều Đi (VII ➔ SGN)</div>
                 <div class="text-3xl font-black text-amber-400">
-                    1,086,581 <span class="text-sm font-semibold">đ</span>
+                    970,000 <span class="text-sm font-semibold">đ</span>
                 </div>
                 <div class="text-xs text-slate-400">
-                    Vietjet (VJ-110m) - 10:20
+                    Vietravel Airlines (VU551) - 15:40
                 </div>
             </div>
 
             <div class="glass-card rounded-2xl p-5 space-y-1">
-                <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">Ngưỡng Báo Động</div>
-                <div class="text-3xl font-black text-rose-400">
-                    700,000 đ
+                <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">Rẻ Nhất Chiều Về (SGN ➔ VII)</div>
+                <div class="text-3xl font-black text-purple-400">
+                    970,000 đ
                 </div>
                 <div class="text-xs text-slate-400">
-                    Báo Telegram khi &lt; 700,000 đ
+                    Vietravel Airlines (VU550) - 13:15
                 </div>
             </div>
 
@@ -106,10 +106,10 @@
             <div class="glass-card rounded-2xl p-5 space-y-1">
                 <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">Tổng Chuyến Bay Đã Quét</div>
                 <div class="text-3xl font-black text-indigo-400">
-                    8 <span class="text-sm font-semibold">chuyến</span>
+                    20 <span class="text-sm font-semibold">chuyến</span>
                 </div>
                 <div class="text-xs text-slate-400">
-                    Đi: 8 | Về: 0 chuyến
+                    Đi: 10 | Về: 10 chuyến
                 </div>
             </div>
         </div>
@@ -147,9 +147,9 @@
                     <p class="text-xs text-slate-400">Đã bao gồm thuế, phí sân bay & phụ thu đầy đủ (Chuẩn giá thanh toán)</p>
                 </div>
                 <div class="flex items-center gap-2 flex-wrap" id="filter-buttons">
-                    <button onclick="filterLeg('all')" id="btn-all" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition-all">Tất cả (8)</button>
-                    <button onclick="filterLeg('outbound')" id="btn-outbound" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Chiều đi: VII ➔ SGN (8)</button>
-                    
+                    <button onclick="filterLeg('all')" id="btn-all" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 text-white transition-all">Tất cả (20)</button>
+                    <button onclick="filterLeg('outbound')" id="btn-outbound" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Chiều đi: VII ➔ SGN (10)</button>
+                    <button onclick="filterLeg('inbound')" id="btn-inbound" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-all">Chiều về: SGN ➔ VII (10)</button>
                 </div>
             </div>
 
@@ -170,16 +170,16 @@
             <td class="py-3 px-4 font-mono text-sm text-slate-400">#1</td>
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
-                <div class="font-medium text-slate-200">Vietjet</div>
-                <div class="text-xs text-slate-400 font-mono">VJ-110m</div>
+                <div class="font-medium text-slate-200">Vietravel Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VU551</div>
             </td>
             <td class="py-3 px-4">
-                <div class="font-bold text-slate-200">10:20 <span class="text-slate-500">→</span> 12:10</div>
+                <div class="font-bold text-slate-200">15:40 <span class="text-slate-500">→</span> 17:35</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,086,581 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,086,581 đ</div>
+                <div class="text-base text-amber-400 font-semibold">970,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 198,000 đ | Phí: 772,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -199,16 +199,16 @@
             <td class="py-3 px-4 font-mono text-sm text-slate-400">#2</td>
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
-                <div class="font-medium text-slate-200">Vietjet</div>
-                <div class="text-xs text-slate-400 font-mono">VJ-110m</div>
+                <div class="font-medium text-slate-200">Pacific Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN6421</div>
             </td>
             <td class="py-3 px-4">
-                <div class="font-bold text-slate-200">11:10 <span class="text-slate-500">→</span> 13:00</div>
+                <div class="font-bold text-slate-200">09:10 <span class="text-slate-500">→</span> 11:05</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,086,581 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,086,581 đ</div>
+                <div class="text-base text-amber-400 font-semibold">1,137,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 416,000 đ | Phí: 721,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -228,16 +228,16 @@
             <td class="py-3 px-4 font-mono text-sm text-slate-400">#3</td>
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
-                <div class="font-medium text-slate-200">Vietjet</div>
-                <div class="text-xs text-slate-400 font-mono">VJ-110m</div>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN1265</div>
             </td>
             <td class="py-3 px-4">
-                <div class="font-bold text-slate-200">15:45 <span class="text-slate-500">→</span> 17:35</div>
+                <div class="font-bold text-slate-200">13:05 <span class="text-slate-500">→</span> 14:55</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,086,581 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,086,581 đ</div>
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -257,16 +257,16 @@
             <td class="py-3 px-4 font-mono text-sm text-slate-400">#4</td>
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
-                <div class="font-medium text-slate-200">Vietjet</div>
-                <div class="text-xs text-slate-400 font-mono">VJ-110m</div>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN1267</div>
             </td>
             <td class="py-3 px-4">
-                <div class="font-bold text-slate-200">16:20 <span class="text-slate-500">→</span> 18:10</div>
+                <div class="font-bold text-slate-200">16:40 <span class="text-slate-500">→</span> 18:30</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,086,581 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,086,581 đ</div>
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -286,16 +286,16 @@
             <td class="py-3 px-4 font-mono text-sm text-slate-400">#5</td>
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
-                <div class="font-medium text-slate-200">Vietjet</div>
-                <div class="text-xs text-slate-400 font-mono">VJ-110m</div>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN7265</div>
             </td>
             <td class="py-3 px-4">
-                <div class="font-bold text-slate-200">21:00 <span class="text-slate-500">→</span> 22:50</div>
+                <div class="font-bold text-slate-200">19:10 <span class="text-slate-500">→</span> 21:00</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,086,581 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,086,581 đ</div>
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -316,15 +316,15 @@
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
                 <div class="font-medium text-slate-200">Vietnam Airlines</div>
-                <div class="text-xs text-slate-400 font-mono">VN-110m</div>
+                <div class="text-xs text-slate-400 font-mono">VN1269</div>
             </td>
             <td class="py-3 px-4">
-                <div class="font-bold text-slate-200">16:40 <span class="text-slate-500">→</span> 18:30</div>
+                <div class="font-bold text-slate-200">21:20 <span class="text-slate-500">→</span> 23:10</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,096,181 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,096,181 đ</div>
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -344,16 +344,16 @@
             <td class="py-3 px-4 font-mono text-sm text-slate-400">#7</td>
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
-                <div class="font-medium text-slate-200">Vietnam Airlines</div>
-                <div class="text-xs text-slate-400 font-mono">VN-110m</div>
+                <div class="font-medium text-slate-200">Pacific Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN6421</div>
             </td>
             <td class="py-3 px-4">
-                <div class="font-bold text-slate-200">19:10 <span class="text-slate-500">→</span> 21:00</div>
+                <div class="font-bold text-slate-200">09:10 <span class="text-slate-500">→</span> 11:05</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,096,181 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,096,181 đ</div>
+                <div class="text-base text-amber-400 font-semibold">4,129,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 3,187,000 đ | Phí: 942,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -374,15 +374,363 @@
             <td class="py-3 px-4">
                 <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
                 <div class="font-medium text-slate-200">Vietnam Airlines</div>
-                <div class="text-xs text-slate-400 font-mono">VN-110m</div>
+                <div class="text-xs text-slate-400 font-mono">VN1265</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">13:05 <span class="text-slate-500">→</span> 14:55</div>
+                <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">4,345,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 3,387,000 đ | Phí: 958,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="outbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#9</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN7265</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">19:10 <span class="text-slate-500">→</span> 21:00</div>
+                <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">4,345,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 3,387,000 đ | Phí: 958,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="outbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#10</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30 mb-1">Chiều đi</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN1269</div>
             </td>
             <td class="py-3 px-4">
                 <div class="font-bold text-slate-200">21:20 <span class="text-slate-500">→</span> 23:10</div>
                 <div class="text-xs text-slate-400">VII → SGN (21/10/2026)</div>
             </td>
             <td class="py-3 px-4">
-                <div class="text-base text-amber-400 font-semibold">1,096,181 đ</div>
-                <div class="text-[11px] text-slate-400">Gốc: 1,096,181 đ</div>
+                <div class="text-base text-amber-400 font-semibold">4,345,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 3,387,000 đ | Phí: 958,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#11</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietravel Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VU550</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">13:15 <span class="text-slate-500">→</span> 15:05</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">970,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 198,000 đ | Phí: 772,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#12</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Pacific Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN6420</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">06:40 <span class="text-slate-500">→</span> 08:35</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">1,137,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 416,000 đ | Phí: 721,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#13</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN1264</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">10:40 <span class="text-slate-500">→</span> 12:30</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#14</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN1266</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">14:15 <span class="text-slate-500">→</span> 16:05</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#15</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN7264</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">16:45 <span class="text-slate-500">→</span> 18:35</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#16</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN1268</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">18:55 <span class="text-slate-500">→</span> 20:45</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">1,216,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 489,000 đ | Phí: 727,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#17</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietravel Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VU550</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">13:15 <span class="text-slate-500">→</span> 15:05</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">2,684,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 2,550,000 đ | Phí: 899,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#18</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Pacific Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN6420</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">06:40 <span class="text-slate-500">→</span> 08:35</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">4,129,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 3,187,000 đ | Phí: 942,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#19</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN1264</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">10:40 <span class="text-slate-500">→</span> 12:30</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">4,345,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 3,387,000 đ | Phí: 958,000 đ</div>
+                
+            </td>
+            <td class="py-3 px-4 text-right">
+                <div class="flex items-center justify-end gap-1.5">
+                    <a href="https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Abay</span>
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+                    <a href="https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded-lg transition-colors shadow-sm">
+                        <span>Traveloka</span>
+                    </a>
+                </div>
+            </td>
+        </tr>
+        
+        <tr class="border-b border-slate-800 hover:bg-slate-800/40 transition-colors flight-row" data-leg="inbound">
+            <td class="py-3 px-4 font-mono text-sm text-slate-400">#20</td>
+            <td class="py-3 px-4">
+                <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-purple-500/20 text-purple-300 border border-purple-500/30 mb-1">Chiều về</span>
+                <div class="font-medium text-slate-200">Vietnam Airlines</div>
+                <div class="text-xs text-slate-400 font-mono">VN7264</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="font-bold text-slate-200">16:45 <span class="text-slate-500">→</span> 18:35</div>
+                <div class="text-xs text-slate-400">SGN → VII (22/10/2026)</div>
+            </td>
+            <td class="py-3 px-4">
+                <div class="text-base text-amber-400 font-semibold">4,345,000 đ</div>
+                <div class="text-[11px] text-slate-400">Gốc: 3,387,000 đ | Phí: 958,000 đ</div>
                 
             </td>
             <td class="py-3 px-4 text-right">
@@ -424,6 +772,14 @@
                     </thead>
                     <tbody>
                         
+        <tr class="border-b border-slate-800/80 hover:bg-slate-800/30 text-sm">
+            <td class="py-2.5 px-4 font-mono text-slate-400">2026-10-07 07:02:26</td>
+            <td class="py-2.5 px-4 font-semibold text-slate-200">970,000 đ</td>
+            <td class="py-2.5 px-4 text-slate-300">Vietravel Airlines (VU551)</td>
+            <td class="py-2.5 px-4 text-slate-400">20 chuyến</td>
+            <td class="py-2.5 px-4 text-right"><span class="text-slate-400">Bình thường</span></td>
+        </tr>
+        
         <tr class="border-b border-slate-800/80 hover:bg-slate-800/30 text-sm">
             <td class="py-2.5 px-4 font-mono text-slate-400">2026-10-07 06:33:29</td>
             <td class="py-2.5 px-4 font-semibold text-slate-200">1,086,581 đ</td>
@@ -536,14 +892,6 @@
             <td class="py-2.5 px-4 text-right"><span class="text-slate-400">Bình thường</span></td>
         </tr>
         
-        <tr class="border-b border-slate-800/80 hover:bg-slate-800/30 text-sm">
-            <td class="py-2.5 px-4 font-mono text-slate-400">2026-10-07 04:12:01</td>
-            <td class="py-2.5 px-4 font-semibold text-slate-200">970,000 đ</td>
-            <td class="py-2.5 px-4 text-slate-300">Vietravel Airlines (VU551)</td>
-            <td class="py-2.5 px-4 text-slate-400">30 chuyến</td>
-            <td class="py-2.5 px-4 text-right"><span class="text-slate-400">Bình thường</span></td>
-        </tr>
-        
                     </tbody>
                 </table>
             </div>
@@ -578,8 +926,8 @@
         }
 
         const ctx = document.getElementById('priceChart').getContext('2d');
-        const labels = ["10-06 20:32:22", "10-06 20:42:14", "10-06 20:51:48", "10-06 21:02:27", "10-06 21:12:14", "10-06 21:21:52", "10-06 21:32:45", "10-06 21:41:40", "10-06 21:52:08", "10-06 22:03:03", "10-06 22:11:54", "10-06 22:21:53", "10-06 22:32:14", "10-06 22:42:18", "10-06 22:51:49", "10-06 23:02:23", "10-06 23:11:59", "10-06 23:21:56", "10-06 23:23:46", "10-06 23:32:20", "10-06 23:42:08", "10-06 23:58:57", "10-07 00:02:41", "10-07 00:12:59", "10-07 00:21:46", "10-07 00:32:07", "10-07 00:41:47", "10-07 00:51:48", "10-07 01:02:37", "10-07 01:11:49", "10-07 01:22:24", "10-07 01:32:09", "10-07 01:52:22", "10-07 02:02:47", "10-07 02:11:54", "10-07 02:22:07", "10-07 02:32:11", "10-07 02:41:45", "10-07 02:51:53", "10-07 03:02:19", "10-07 03:11:55", "10-07 03:33:48", "10-07 03:41:53", "10-07 03:51:40", "10-07 04:02:46", "10-07 04:12:01", "10-07 04:21:57", "10-07 04:23:36", "10-07 04:32:18", "10-07 04:52:18", "10-07 05:02:41", "10-07 05:12:15", "10-07 05:21:46", "10-07 05:32:12", "10-07 05:41:46", "10-07 05:51:54", "10-07 06:02:29", "10-07 06:13:12", "10-07 06:23:38", "10-07 06:33:29"];
-        const prices = [970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 489000, 970000, 375000, 375000, 970000, 970000, 970000, 970000, 970000, 1086581, 1086581, 1086581];
+        const labels = ["10-06 20:42:14", "10-06 20:51:48", "10-06 21:02:27", "10-06 21:12:14", "10-06 21:21:52", "10-06 21:32:45", "10-06 21:41:40", "10-06 21:52:08", "10-06 22:03:03", "10-06 22:11:54", "10-06 22:21:53", "10-06 22:32:14", "10-06 22:42:18", "10-06 22:51:49", "10-06 23:02:23", "10-06 23:11:59", "10-06 23:21:56", "10-06 23:23:46", "10-06 23:32:20", "10-06 23:42:08", "10-06 23:58:57", "10-07 00:02:41", "10-07 00:12:59", "10-07 00:21:46", "10-07 00:32:07", "10-07 00:41:47", "10-07 00:51:48", "10-07 01:02:37", "10-07 01:11:49", "10-07 01:22:24", "10-07 01:32:09", "10-07 01:52:22", "10-07 02:02:47", "10-07 02:11:54", "10-07 02:22:07", "10-07 02:32:11", "10-07 02:41:45", "10-07 02:51:53", "10-07 03:02:19", "10-07 03:11:55", "10-07 03:33:48", "10-07 03:41:53", "10-07 03:51:40", "10-07 04:02:46", "10-07 04:12:01", "10-07 04:21:57", "10-07 04:23:36", "10-07 04:32:18", "10-07 04:52:18", "10-07 05:02:41", "10-07 05:12:15", "10-07 05:21:46", "10-07 05:32:12", "10-07 05:41:46", "10-07 05:51:54", "10-07 06:02:29", "10-07 06:13:12", "10-07 06:23:38", "10-07 06:33:29", "10-07 07:02:26"];
+        const prices = [970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 970000, 489000, 970000, 375000, 375000, 970000, 970000, 970000, 970000, 970000, 1086581, 1086581, 1086581, 970000];
         const thresholds = [700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000, 700000];
 
         new Chart(ctx, {

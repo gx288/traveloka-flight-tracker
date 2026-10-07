@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Vietjet 0đ Auto-Sniper, Flight Auditor & One-Click VietQR
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      1.7.1
-// @description  Fix triệt để vòng lặp bảo hiểm, tự hủy hành lý 400k, tự tích điều khoản Passengers & Payment, tự chọn VietQR!
+// @version      1.8.0
+// @description  Tự động bắt vé 0đ, tự mở & hủy hành lý 400k/bảo hiểm (chuẩn không kẹt), tự tích điều khoản Passengers, tự chọn VietQR, soi chuẩn Tên khách + Khứ hồi!
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
 // @match        https://*.abay.vn/*
@@ -13,7 +13,7 @@
 (function() {
     'use strict';
 
-    console.log("⚡ [Vietjet Sniper v1.7.1] Fix triệt để vòng lặp vô hạn bảo hiểm...");
+    console.log("⚡ [Vietjet Sniper v1.8.0] Khởi chạy Sniper v1.8.0...");
 
     // ----------------- CẤU HÌNH THÔNG TIN CHUẨN -----------------
     const TARGET = {
@@ -83,7 +83,7 @@
         });
     }
 
-    // ----------------- 2. TỰ ĐỘNG TÍCH CHỌN ĐIỀU KHOẢN (PASSENGERS & PAYMENT) -----------------
+    // ----------------- 2. TỰ ĐỘNG TÍCH ĐIỀU KHOẢN (TRANG PASSENGERS & PAYMENT) -----------------
     function autoTickTermsCheckboxes() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(cb => {
@@ -93,7 +93,7 @@
             // Tuyệt đối không tích bảo hiểm
             if (text.includes("bảo hiểm") || text.includes("insurance")) return;
 
-            // Bắt điều khoản quy định
+            // Bắt điều khoản quy định trang Passengers
             if (text.includes("tôi đã đọc") ||
                 text.includes("quyền riêng tư") ||
                 text.includes("điều lệ vận chuyển") ||
@@ -134,35 +134,23 @@
         }
     }
 
-    // ----------------- 3. TỰ ĐỘNG MỞ & BỎ CHỌN: HÀNH LÝ 400K & BẢO HIỂM (CHỐNG LẶP VÔ HẠN) -----------------
-    let openedBaggageOnce = false;
-    let openedInsuranceOnce = false;
-    let isDrawerProcessing = false;
-    let lastTabSwitchTime = 0;
+    // ----------------- 3. TỰ ĐỘNG HỦY HÀNH LÝ 400K & BẢO HIỂM -----------------
+    let lastTabTime = 0;
 
     function autoDismissDrawers() {
-        const isServicePage = document.body && (
-            document.body.innerText.includes("Chọn hành lý") ||
-            document.body.innerText.includes("Bảo hiểm du lịch") ||
-            window.location.href.includes("select-service")
-        );
-        if (!isServicePage) return;
-
-        // --- A. NẾU DRAWER ĐANG MỞ: TỰ CHỌN "KHÔNG, CẢM ƠN" VÀ "XÁC NHẬN" ---
+        // --- A. KHI DRAWER ĐANG MỞ (HÀNH LÝ HOẶC BẢO HIỂM) ---
         const drawer = document.querySelector('.MuiDrawer-paper, .MuiDialog-root');
         if (drawer && drawer.offsetWidth > 0 && drawer.offsetHeight > 0) {
-            isDrawerProcessing = true;
-
-            // Xử lý Tabs khứ hồi nếu có
+            // Xử lý Tabs Chuyến đi / Chuyến về
             const tabs = drawer.querySelectorAll('button[role="tab"]');
             if (tabs.length > 1) {
                 const now = Date.now();
                 if (tabs[0].getAttribute('aria-selected') === 'true' && !drawer.dataset.tab1Done) {
                     selectNoChoiceInContainer(drawer);
-                    if (now - lastTabSwitchTime > 400) {
-                        lastTabSwitchTime = now;
+                    if (now - lastTabTime > 400) {
+                        lastTabTime = now;
                         drawer.dataset.tab1Done = "true";
-                        console.log("⚡ [Sniper Auto] Đã bỏ chọn Chuyến đi, chuyển sang Chuyến về...");
+                        console.log("⚡ [Sniper Auto] Đã bỏ chọn Chuyến đi, chuyển Chuyến về...");
                         triggerClick(tabs[1]);
                         return;
                     }
@@ -175,7 +163,7 @@
                 selectNoChoiceInContainer(drawer);
             }
 
-            // Tự động bấm nút "Xác nhận" DUY NHẤT 1 LẦN
+            // Tự động click nút "Xác nhận"
             const buttons = drawer.querySelectorAll('button');
             buttons.forEach(btn => {
                 const bTxt = (btn.innerText || "").trim().toLowerCase();
@@ -185,7 +173,6 @@
                         setTimeout(() => {
                             triggerClick(btn);
                             console.log("⚡ [Sniper Auto] Đã tự động click nút: XÁC NHẬN!");
-                            setTimeout(() => { isDrawerProcessing = false; }, 500);
                         }, 250);
                     }
                 }
@@ -193,38 +180,36 @@
             return;
         }
 
-        if (isDrawerProcessing) return;
+        // --- B. KHI DRAWER CHƯA MỞ (TRANG SELECT-SERVICE) ---
+        const isServicePage = document.body && (
+            document.body.innerText.includes("Chọn hành lý") ||
+            window.location.href.includes("select-service")
+        );
+        if (!isServicePage) return;
 
-        // --- B. NẾU DRAWER CHƯA MỞ: TUẦN TỰ MỞ HÀNH LÝ VÀ BẢO HIỂM (MỖI THỨ CHỈ 1 LẦN) ---
-        const pageText = document.body ? document.body.innerText : "";
-
-        // 1. Mở thẻ Hành lý (CHỈ MỞ 1 LẦN NẾU THẤY CÒN DÍNH PHÍ GÓI 20KG)
-        if (!openedBaggageOnce && (pageText.includes("Gói 20kg") || pageText.includes("400,000 VND") || pageText.includes("200,000 VND"))) {
-            const cards = document.querySelectorAll('div, span');
-            for (let card of cards) {
-                const txt = card.innerText || "";
-                if (txt.includes("Chọn hành lý") && (txt.includes("Gói 20kg") || txt.includes("400,000 VND"))) {
-                    const clickable = card.closest('.jss683') || card.closest('div[role="button"]') || card;
-                    openedBaggageOnce = true;
-                    console.log("⚡ [Sniper Auto] Tự động mở thẻ Hành lý để gỡ gói 20kg...");
-                    triggerClick(clickable);
-                    return;
+        // 1. Tự động mở thẻ Hành lý nếu thấy Vietjet đang tự gài Gói 20kg (khôi phục bản chuẩn v1.4.0)
+        const allDivs = document.querySelectorAll('div');
+        for (let card of allDivs) {
+            const txt = card.innerText || "";
+            if (txt.includes("Chọn hành lý") && (txt.includes("Gói 20kg") || txt.includes("200,000 VND") || txt.includes("400,000 VND"))) {
+                if (!card.dataset.openedBySniper) {
+                    card.dataset.openedBySniper = "true";
+                    console.log("⚡ [Sniper Auto] Phát hiện hành lý 20kg, tự động click mở để gỡ bỏ...");
+                    triggerClick(card);
+                    break;
                 }
             }
         }
 
-        // 2. Mở thẻ Bảo hiểm (CHỈ MỞ 1 LẦN DUY NHẤT NẾU CHƯA XỬ LÝ)
-        if (!openedInsuranceOnce && (pageText.includes("Bảo hiểm du lịch Vietjet Travel Safe") || pageText.includes("Bảo hiểm du lịch"))) {
-            // Kiểm tra xem bảo hiểm có đang bị tính phí không (nếu có 44,000 VND hoặc chưa mở bao giờ)
-            const cards = document.querySelectorAll('div, span');
-            for (let el of cards) {
-                const txt = (el.innerText || "").trim();
-                if (txt === "Bảo hiểm du lịch Vietjet Travel Safe" || txt === "Bảo hiểm du lịch") {
-                    const insCard = el.closest('.jss683') || el.closest('div[role="button"]') || el;
-                    openedInsuranceOnce = true; // Đánh dấu đã mở 1 lần duy nhất, TUYỆT ĐỐI KHÔNG MỞ LẠI!
-                    console.log("⚡ [Sniper Auto] Tự động mở thẻ Bảo hiểm (1 lần duy nhất) để gỡ bỏ...");
-                    triggerClick(insCard);
-                    return;
+        // 2. Tự động mở thẻ Bảo hiểm NẾU Bảo hiểm đang có phí (> 0 VND)
+        for (let card of allDivs) {
+            const txt = card.innerText || "";
+            if (txt.includes("Vietjet Travel Safe") && (txt.includes("44,000 VND") || txt.includes("88,000 VND") || txt.includes("VND"))) {
+                if (!card.dataset.openedInsuranceBySniper) {
+                    card.dataset.openedInsuranceBySniper = "true";
+                    console.log("⚡ [Sniper Auto] Phát hiện bảo hiểm có tính tiền, tự động click mở để hủy...");
+                    triggerClick(card);
+                    break;
                 }
             }
         }
@@ -260,7 +245,7 @@
         });
     }
 
-    // ----------------- 4. TRANG THANH TOÁN: CHỌN VIETQR (KHÔNG PHỤ THUỘC URL) -----------------
+    // ----------------- 4. TRANG THANH TOÁN: CHỌN VIETQR -----------------
     function handlePaymentPage() {
         const isPayment = document.body && (
             document.body.innerText.includes("Phương thức thanh toán") ||
@@ -274,13 +259,14 @@
         allElements.forEach(el => {
             const txt = (el.innerText || "").trim();
             const src = el.getAttribute('src') || "";
-            if (txt === "Mobile Banking VietQR" || txt.includes("Mobile Banking VietQR") || src.includes("vietqrtrans")) {
+            if (txt === "Mobile Banking VietQR" || (txt.includes("Mobile Banking VietQR") && txt.length < 35) || src.includes("vietqrtrans")) {
                 const card = el.closest('.MuiPaper-root') || el.closest('div[style*="width: 18%"]') || el.parentElement;
                 if (card && !card.dataset.sniperVietQrSelected) {
                     card.dataset.sniperVietQrSelected = "true";
                     console.log("⚡ [Sniper Auto] Đang tự động click chọn: Mobile Banking VietQR!");
                     triggerClick(el);
                     triggerClick(card);
+                    if (card.parentElement) triggerClick(card.parentElement);
                     card.style.border = "3px solid #22c55e";
                     card.style.boxShadow = "0 0 20px rgba(34, 197, 94, 0.8)";
                 }

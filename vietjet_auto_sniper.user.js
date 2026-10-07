@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Vietjet 0đ Sniper v2 (Bắt 0đ + Gỡ hành lý/bảo hiểm + VietQR + Auditor)
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      2.0.2
+// @version      2.1.0
 // @description  Viết lại sạch: phát hiện vé 0đ đúng định dạng giá Vietjet, gỡ hành lý/bảo hiểm 1 lần không lặp, tích điều khoản, chọn VietQR có kiểm tra, bảng soi lỗi không chặn click.
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
@@ -19,6 +19,7 @@
         returnDate: '22/10/2026',      // để '' nếu bay 1 chiều
         AUTO_CLICK_ZERO: false,        // true = tự click vé 0đ đầu tiên (có thể chọn sai giờ bay)
         TICK_MS: 500,
+        AUTO_CLICK: false,             // false = CHỈ soi & báo, không bấm gì hộ
         WAIT_FOR_LOADING: false,       // true = đợi lớp "Loading" của Vietjet biến mất mới bấm
     };
 
@@ -307,7 +308,7 @@
 
         const fee = serviceFeeTotal();
         if (fee !== null) add(fee === 0, fee === 0 ? 'Phí dịch vụ: 0đ' : `Phí dịch vụ: ${fee.toLocaleString('vi-VN')}đ`);
-        if (page === 'payment') add(S.qrDone ? true : null, S.qrDone ? 'Thanh toán: VietQR' : 'Thanh toán: đang chọn VietQR...');
+        if (page === 'payment' && CFG.AUTO_CLICK) add(S.qrDone ? true : null, S.qrDone ? 'Thanh toán: VietQR' : 'Thanh toán: đang chọn VietQR...');
 
         if (page === 'payment' && errors.length && !S.errBeeped) { S.errBeeped = true; beep([330, 220]); }
 
@@ -363,9 +364,9 @@
             const ready = CFG.WAIT_FOR_LOADING ? isReady() : true;
             if (!ready) { renderStatus(false); return; }
             if (page === 'flight') scanZeroFares();
-            if (page === 'passengers' || page === 'payment') tickTerms();
-            if (page === 'service') handleService();
-            if (page === 'payment') handlePayment();
+            if (CFG.AUTO_CLICK && (page === 'passengers' || page === 'payment')) tickTerms();
+            if (CFG.AUTO_CLICK && page === 'service') handleService();
+            if (CFG.AUTO_CLICK && page === 'payment') handlePayment();
             if (page === 'service' || page === 'payment' || page === 'passengers') renderAuditor(t);
             else renderStatus(true);
         } catch (e) {
@@ -373,6 +374,6 @@
         }
     }
 
-    log('v2.0.2 đã chạy');
+    log('v2.1.0 đã chạy (chế độ chỉ soi)');
     setInterval(tick, CFG.TICK_MS);
 })();

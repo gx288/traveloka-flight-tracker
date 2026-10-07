@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Vietjet 0đ Auto-Sniper (Chuyên săn vé 0đ & Hủy phụ phí)
+// @name         Vietjet 0đ Auto-Sniper (Chuyên săn vé 0đ & Tự hủy phụ phí/Hành lý)
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      1.1.0
-// @description  Tự động chọn vé 0đ/vé rẻ nhất, tự động gỡ bỏ bảo hiểm phụ phí và dẫn thẳng tới màn hình thanh toán VietQR.
+// @version      1.2.0
+// @description  Tự động bắt vé 0đ, tự gỡ bẫy hành lý 400k & bảo hiểm phụ thu, highlight nút Đi tiếp sang thanh toán VietQR.
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
 // @match        https://*.abay.vn/*
@@ -13,9 +13,9 @@
 (function() {
     'use strict';
 
-    console.log("⚡ [Vietjet Sniper] Đang chạy chế độ săn vé 0đ & hủy phụ phí...");
+    console.log("⚡ [Vietjet Sniper v1.2] Đang kích hoạt chế độ săn vé 0đ & triệt tiêu phụ phí...");
 
-    // ----------------- ÂM THANH BÁO ĐỘNG KHI TÌM THẤY VÉ 0Đ -----------------
+    // ----------------- 1. ÂM THANH BÁO ĐỘNG KHI TÌM THẤY VÉ 0Đ -----------------
     let hasAlerted = false;
     function playAlarm() {
         if (hasAlerted) return;
@@ -34,23 +34,8 @@
         } catch(e) {}
     }
 
-    // ----------------- 1. TỰ ĐỘNG BỎ TÍCH BẢO HIỂM PHỤ THU -----------------
-    function uncheckInsurance() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(cb => {
-            const label = (cb.parentElement ? cb.parentElement.innerText : "").toLowerCase();
-            if (label.includes("bảo hiểm") || label.includes("insurance") || label.includes("bảo việt") || label.includes("bảo minh")) {
-                if (cb.checked) {
-                    cb.click();
-                    console.log("⚡ [Sniper] Đã tự động bỏ chọn bảo hiểm phụ thu!");
-                }
-            }
-        });
-    }
-
     // ----------------- 2. TỰ ĐỘNG PHÁT HIỆN & CHỌN VÉ 0Đ TRÊN LỊCH THÁNG -----------------
     function pickZeroDongFlight() {
-        // Tìm các ô vé có cước 0 đ hoặc nhãn giá thấp nhất
         const cells = document.querySelectorAll('td, div, button, span');
         cells.forEach(el => {
             const text = (el.innerText || "").trim();
@@ -68,7 +53,71 @@
         });
     }
 
-    // ----------------- 3. BẢNG HIỂN THỊ TRẠNG THÁI GÓC MÀN HÌNH -----------------
+    // ----------------- 3. BẢO HIỂM: TỰ ĐỘNG GỠ BỎ TÍCH -----------------
+    function uncheckInsurance() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(cb => {
+            const label = (cb.parentElement ? cb.parentElement.innerText : "").toLowerCase();
+            if (label.includes("bảo hiểm") || label.includes("insurance") || label.includes("bảo việt") || label.includes("bảo minh")) {
+                if (cb.checked) {
+                    cb.click();
+                    console.log("⚡ [Sniper] Đã tự động bỏ chọn bảo hiểm phụ thu!");
+                }
+            }
+        });
+    }
+
+    // ----------------- 4. TRANG DỊCH VỤ (select-service): CẢNH BÁO BẪY HÀNH LÝ 400K -----------------
+    function handleServiceAddons() {
+        if (!window.location.href.includes("select-service")) return;
+
+        // Quét thẻ hành lý ký gửi
+        const allDivs = document.querySelectorAll('div, span');
+        allDivs.forEach(el => {
+            const text = el.innerText || "";
+            // Nếu phát hiện Vietjet đang tự gài gói 20kg hoặc 400.000 VND
+            if (text.includes("Chọn hành lý") && (text.includes("Gói 20kg") || text.includes("400,000 VND"))) {
+                if (!el.dataset.luggageWarned) {
+                    el.dataset.luggageWarned = "true";
+                    el.style.border = "3px dashed #ef4444";
+                    el.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
+
+                    // Thêm thanh thông báo nhắc nhở ngay trên thẻ
+                    const warnNotice = document.createElement('div');
+                    warnNotice.style.cssText = "background: #ef4444; color: #fff; padding: 6px 10px; font-weight: bold; font-size: 13px; border-radius: 6px; margin-bottom: 8px; text-align: center;";
+                    warnNotice.innerHTML = "⚠️ CẢNH BÁO: Vietjet đang tự chọn Gói 20kg (+400k)! Nhấp vào đây chọn 0kg nếu chỉ mang xách tay.";
+                    el.prepend(warnNotice);
+                    console.log("⚠️ [Sniper] Phát hiện bẫy hành lý 400k! Đã cảnh báo trên màn hình.");
+                }
+            }
+        });
+
+        // Nếu người dùng mở modal/drawer chọn hành lý, tự động ưu tiên click "Không chọn" / "0 kg"
+        const modalOptions = document.querySelectorAll('.MuiDialog-root div, .MuiDrawer-root div, div[role="dialog"] div');
+        modalOptions.forEach(opt => {
+            const optText = (opt.innerText || "").toLowerCase().trim();
+            if (optText === "không có hành lý" || optText === "không chọn hành lý" || optText === "0 kg" || optText === "0kg (0 vnd)") {
+                if (!opt.dataset.sniperSelected) {
+                    opt.dataset.sniperSelected = "true";
+                    opt.style.border = "2px solid #22c55e";
+                    opt.click();
+                    console.log("⚡ [Sniper] Đã tự động chọn: Không có hành lý (0đ)!");
+                }
+            }
+        });
+
+        // Làm nổi bật nút "Đi tiếp" để thao tác cực nhanh
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            if ((btn.innerText || "").includes("Đi tiếp")) {
+                btn.style.boxShadow = "0 0 15px #22c55e";
+                btn.style.transform = "scale(1.05)";
+                btn.style.transition = "all 0.3s ease";
+            }
+        });
+    }
+
+    // ----------------- 5. BẢNG HIỂN THỊ TRẠNG THÁI GÓC MÀN HÌNH -----------------
     function showStatusBadge() {
         if (document.getElementById('vj-sniper-badge')) return;
         const b = document.createElement('div');
@@ -80,7 +129,7 @@
                 right: 15px;
                 z-index: 999999;
                 background: #0f172a;
-                border: 1px solid #ef4444;
+                border: 1px solid #22c55e;
                 border-radius: 12px;
                 padding: 10px 14px;
                 color: #fff;
@@ -89,16 +138,16 @@
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.5);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.6);
             ">
                 <span style="display: inline-block; width: 8px; height: 8px; border-radius: 9999px; background: #22c55e; animation: pulse 1.5s infinite;"></span>
-                <span style="font-weight: bold; color: #ef4444;">VJ SNIPER:</span>
-                <span>Tự hủy bảo hiểm + Bắt vé 0đ</span>
+                <span style="font-weight: bold; color: #22c55e;">VJ SNIPER v1.2:</span>
+                <span>Sẵn sàng bắt 0đ & diệt phụ phí 400k</span>
             </div>
             <style>
                 @keyframes pulse {
                     0% { transform: scale(0.95); opacity: 0.7; }
-                    50% { transform: scale(1.3); opacity: 1; }
+                    50% { transform: scale(1.4); opacity: 1; }
                     100% { transform: scale(0.95); opacity: 0.7; }
                 }
             </style>
@@ -110,8 +159,9 @@
     setInterval(() => {
         uncheckInsurance();
         pickZeroDongFlight();
+        handleServiceAddons();
     }, 600);
 
-    setTimeout(showStatusBadge, 1500);
+    setTimeout(showStatusBadge, 1200);
 
 })();

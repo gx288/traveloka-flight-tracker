@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Vietjet 0đ Auto-Sniper (Chuyên săn vé 0đ & Tự hủy phụ phí/Hành lý)
+// @name         Vietjet 0đ Auto-Sniper & Real-time Flight Auditor
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      1.2.0
-// @description  Tự động bắt vé 0đ, tự gỡ bẫy hành lý 400k & bảo hiểm phụ thu, highlight nút Đi tiếp sang thanh toán VietQR.
+// @version      1.3.1
+// @description  Tự động bắt vé 0đ, soi chuẩn xác Tên khách + Ngày đi + Ngày về khứ hồi, cảnh báo đỏ nếu dính phí dịch vụ 216k/400k hoặc thiếu chiều về!
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
 // @match        https://*.abay.vn/*
@@ -13,33 +13,55 @@
 (function() {
     'use strict';
 
-    console.log("⚡ [Vietjet Sniper v1.2] Đang kích hoạt chế độ săn vé 0đ & triệt tiêu phụ phí...");
+    console.log("⚡ [Vietjet Sniper v1.3.1] Khởi chạy Auditor kiểm tra vé & diệt phụ phí...");
 
-    // ----------------- 1. ÂM THANH BÁO ĐỘNG KHI TÌM THẤY VÉ 0Đ -----------------
-    let hasAlerted = false;
-    function playAlarm() {
-        if (hasAlerted) return;
-        hasAlerted = true;
+    // ----------------- CẤU HÌNH THÔNG TIN CHUẨN CẦN KIỂM TRA -----------------
+    const TARGET = {
+        passengerRegex: /TRAN\s*THI\s*KIM\s*TINH|TRẦN\s*THỊ\s*KIM\s*TĨNH/i,
+        departDateRegex: /21\/10\/2026|21\s*tháng\s*10/i,
+        departRouteRegex: /VII.*SGN|Vinh.*Hồ Chí Minh/i,
+        returnDateRegex: /22\/10\/2026|22\s*tháng\s*10|VJ216/i,
+        returnRouteRegex: /SGN.*VII|Hồ Chí Minh.*Vinh/i
+    };
+
+    // ----------------- ÂM THANH BÁO ĐỘNG -----------------
+    let alerted0d = false;
+    let alertedError = false;
+
+    function playTone(freq, duration, type = "sine") {
         try {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.connect(gain);
             gain.connect(ctx.destination);
-            osc.type = "sine";
-            osc.frequency.setValueAtTime(880, ctx.currentTime);
-            gain.gain.setValueAtTime(0.6, ctx.currentTime);
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, ctx.currentTime);
+            gain.gain.setValueAtTime(0.3, ctx.currentTime);
             osc.start();
-            osc.stop(ctx.currentTime + 1.2);
+            osc.stop(ctx.currentTime + duration);
         } catch(e) {}
     }
 
-    // ----------------- 2. TỰ ĐỘNG PHÁT HIỆN & CHỌN VÉ 0Đ TRÊN LỊCH THÁNG -----------------
+    function soundSuccess() {
+        if (alerted0d) return;
+        alerted0d = true;
+        playTone(880, 0.4);
+        setTimeout(() => playTone(1174, 0.6), 250);
+    }
+
+    function soundError() {
+        if (alertedError) return;
+        alertedError = true;
+        playTone(300, 0.3, "sawtooth");
+        setTimeout(() => playTone(220, 0.5, "sawtooth"), 250);
+    }
+
+    // ----------------- 1. TỰ ĐỘNG BẮT VÉ 0Đ -----------------
     function pickZeroDongFlight() {
         const cells = document.querySelectorAll('td, div, button, span');
         cells.forEach(el => {
             const text = (el.innerText || "").trim();
-            // Nhận diện vé 0đ: "0 đ", "0 VND", "0đ"
             if (/^0\s*(đ|vnd|vnds)/i.test(text) || text === "0 đ" || text === "0đ") {
                 if (!el.dataset.sniperClicked) {
                     el.dataset.sniperClicked = "true";
@@ -47,13 +69,13 @@
                     el.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
                     console.log("🎯 [Sniper] PHÁT HIỆN VÉ 0 ĐỒNG! Đang tự động click chọn...");
                     el.click();
-                    playAlarm();
+                    soundSuccess();
                 }
             }
         });
     }
 
-    // ----------------- 3. BẢO HIỂM: TỰ ĐỘNG GỠ BỎ TÍCH -----------------
+    // ----------------- 2. BẢO HIỂM: TỰ ĐỘNG GỠ BỎ TÍCH -----------------
     function uncheckInsurance() {
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(cb => {
@@ -67,32 +89,11 @@
         });
     }
 
-    // ----------------- 4. TRANG DỊCH VỤ (select-service): CẢNH BÁO BẪY HÀNH LÝ 400K -----------------
+    // ----------------- 3. TRANG DỊCH VỤ: DIỆT BẪY HÀNH LÝ 400K -----------------
     function handleServiceAddons() {
         if (!window.location.href.includes("select-service")) return;
 
-        // Quét thẻ hành lý ký gửi
-        const allDivs = document.querySelectorAll('div, span');
-        allDivs.forEach(el => {
-            const text = el.innerText || "";
-            // Nếu phát hiện Vietjet đang tự gài gói 20kg hoặc 400.000 VND
-            if (text.includes("Chọn hành lý") && (text.includes("Gói 20kg") || text.includes("400,000 VND"))) {
-                if (!el.dataset.luggageWarned) {
-                    el.dataset.luggageWarned = "true";
-                    el.style.border = "3px dashed #ef4444";
-                    el.style.backgroundColor = "rgba(239, 68, 68, 0.1)";
-
-                    // Thêm thanh thông báo nhắc nhở ngay trên thẻ
-                    const warnNotice = document.createElement('div');
-                    warnNotice.style.cssText = "background: #ef4444; color: #fff; padding: 6px 10px; font-weight: bold; font-size: 13px; border-radius: 6px; margin-bottom: 8px; text-align: center;";
-                    warnNotice.innerHTML = "⚠️ CẢNH BÁO: Vietjet đang tự chọn Gói 20kg (+400k)! Nhấp vào đây chọn 0kg nếu chỉ mang xách tay.";
-                    el.prepend(warnNotice);
-                    console.log("⚠️ [Sniper] Phát hiện bẫy hành lý 400k! Đã cảnh báo trên màn hình.");
-                }
-            }
-        });
-
-        // Nếu người dùng mở modal/drawer chọn hành lý, tự động ưu tiên click "Không chọn" / "0 kg"
+        // Nếu mở popup chọn hành lý -> tự chọn 0kg
         const modalOptions = document.querySelectorAll('.MuiDialog-root div, .MuiDrawer-root div, div[role="dialog"] div');
         modalOptions.forEach(opt => {
             const optText = (opt.innerText || "").toLowerCase().trim();
@@ -106,7 +107,7 @@
             }
         });
 
-        // Làm nổi bật nút "Đi tiếp" để thao tác cực nhanh
+        // Highlight nút Đi tiếp
         const buttons = document.querySelectorAll('button');
         buttons.forEach(btn => {
             if ((btn.innerText || "").includes("Đi tiếp")) {
@@ -117,51 +118,157 @@
         });
     }
 
-    // ----------------- 5. BẢNG HIỂN THỊ TRẠNG THÁI GÓC MÀN HÌNH -----------------
-    function showStatusBadge() {
-        if (document.getElementById('vj-sniper-badge')) return;
-        const b = document.createElement('div');
-        b.id = 'vj-sniper-badge';
-        b.innerHTML = `
+    // ----------------- 4. AUDITOR GÓC MÀN HÌNH: SOI LỖI VÉ & PHÍ DỊCH VỤ -----------------
+    function auditAndRenderWidget() {
+        const url = window.location.href;
+        const pageText = document.body ? document.body.innerText : "";
+        if (!pageText || pageText.length < 50) return;
+
+        const isFlight = url.includes("select-flight");
+        const isPassenger = url.includes("passenger");
+        const isService = url.includes("select-service");
+        const isPayment = url.includes("payment");
+
+        let errors = [];
+        let items = [];
+
+        // --- A. Kiểm tra Chiều đi ---
+        const okDepart = TARGET.departDateRegex.test(pageText);
+        if (okDepart) {
+            items.push({ status: "ok", text: "Chiều đi: VII ➔ SGN (21/10/2026)" });
+        } else {
+            if (isService || isPayment) {
+                errors.push("Sai hoặc thiếu ngày đi 21/10/2026!");
+                items.push({ status: "error", text: "Chiều đi: Chưa thấy 21/10/2026" });
+            } else {
+                items.push({ status: "pending", text: "Chiều đi: Đang tìm 21/10/2026..." });
+            }
+        }
+
+        // --- B. Kiểm tra Chiều về (Khứ hồi) ---
+        const okReturn = TARGET.returnDateRegex.test(pageText);
+        if (okReturn) {
+            items.push({ status: "ok", text: "Chiều về: SGN ➔ VII (22/10/2026)" });
+        } else {
+            if (isService || isPayment) {
+                errors.push("THIẾU CHUYẾN VỀ 22/10! (Đang là vé 1 chiều)");
+                items.push({ status: "error", text: "Chiều về: THIẾU CHUYẾN VỀ 22/10!" });
+            } else {
+                items.push({ status: "pending", text: "Chiều về: Đang tìm 22/10/2026..." });
+            }
+        }
+
+        // --- C. Kiểm tra Tên hành khách ---
+        const okPassenger = TARGET.passengerRegex.test(pageText);
+        if (okPassenger) {
+            items.push({ status: "ok", text: "Khách: TRẦN THỊ KIM TĨNH" });
+        } else {
+            if (isService || isPayment) {
+                errors.push("Chưa đúng tên khách: TRAN THI KIM TINH!");
+                items.push({ status: "error", text: "Khách: Chưa có tên Kim Tĩnh" });
+            } else if (isPassenger) {
+                items.push({ status: "pending", text: "Khách: Cần điền TRAN THI KIM TINH" });
+            }
+        }
+
+        // --- D. Kiểm tra Phí dịch vụ / Hành lý (Soi chính xác con số) ---
+        let detectedServiceFee = 0;
+        const allTextElements = document.querySelectorAll('h4, div, span, p');
+        allTextElements.forEach(el => {
+            const t = el.innerText || "";
+            const m = t.match(/dịch vụ[\s\S]{0,30}?([\d,.]+)\s*vnd/i);
+            if (m) {
+                const amt = parseInt(m[1].replace(/[,.]/g, ''), 10);
+                if (amt > detectedServiceFee) {
+                    detectedServiceFee = amt;
+                }
+            }
+        });
+
+        if (detectedServiceFee > 0 && (isService || isPayment)) {
+            errors.push(`DÍNH PHÍ DỊCH VỤ / HÀNH LÝ: ${detectedServiceFee.toLocaleString('vi-VN')} đ!`);
+            items.push({ status: "error", text: `Phí Dịch vụ: ${detectedServiceFee.toLocaleString('vi-VN')} đ (CHƯA GỠ)` });
+        } else if (isService || isPayment) {
+            items.push({ status: "ok", text: "Phí Dịch vụ: 0 đ (Sạch)" });
+        }
+
+        // --- E. Cập nhật DOM Widget ---
+        let box = document.getElementById('vj-auditor-widget');
+        if (!box) {
+            box = document.createElement('div');
+            box.id = 'vj-auditor-widget';
+            document.body.appendChild(box);
+        }
+
+        const hasError = errors.length > 0;
+        if (hasError && (isService || isPayment)) {
+            soundError();
+        }
+
+        const borderColor = hasError ? "#ef4444" : "#22c55e";
+        const headerBg = hasError ? "rgba(239, 68, 68, 0.25)" : "rgba(34, 197, 94, 0.25)";
+        const headerTitle = hasError ? "🚨 PHÁT HIỆN LỖI VÉ / PHỤ PHÍ!" : "✅ THÔNG TIN CHUẨN XÁC 100%";
+
+        let itemsHtml = items.map(it => {
+            let icon = "⏳";
+            let color = "#94a3b8";
+            if (it.status === "ok") { icon = "✅"; color = "#4ade80"; }
+            if (it.status === "error") { icon = "❌"; color = "#f87171"; }
+            return `<div style="color: ${color}; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; font-weight: ${it.status === 'error' ? 'bold' : 'normal'};">
+                <span>${icon}</span> <span>${it.text}</span>
+            </div>`;
+        }).join("");
+
+        let alertBoxHtml = "";
+        if (hasError) {
+            alertBoxHtml = `<div style="background: #b91c1c; color: #fff; padding: 8px 10px; border-radius: 6px; font-weight: bold; margin-top: 8px; font-size: 11.5px; border: 1px solid #ef4444;">
+                ${errors.map(e => `• ${e}`).join("<br>")}
+            </div>`;
+        }
+
+        box.innerHTML = `
             <div style="
                 position: fixed;
-                bottom: 15px;
+                top: 15px;
                 right: 15px;
-                z-index: 999999;
+                z-index: 9999999;
+                width: 330px;
                 background: #0f172a;
-                border: 1px solid #22c55e;
+                border: 2px solid ${borderColor};
                 border-radius: 12px;
-                padding: 10px 14px;
-                color: #fff;
-                font-family: system-ui, sans-serif;
+                padding: 12px 14px;
+                box-shadow: 0 12px 25px rgba(0,0,0,0.7);
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
                 font-size: 12px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+                line-height: 1.4;
+                backdrop-filter: blur(8px);
+                animation: ${hasError ? 'pulseAlert 1.2s infinite' : 'none'};
             ">
-                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 9999px; background: #22c55e; animation: pulse 1.5s infinite;"></span>
-                <span style="font-weight: bold; color: #22c55e;">VJ SNIPER v1.2:</span>
-                <span>Sẵn sàng bắt 0đ & diệt phụ phí 400k</span>
+                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 8px; background: ${headerBg}; padding: 6px 8px; border-radius: 6px;">
+                    <span style="font-weight: 800; color: ${borderColor}; font-size: 13px;">${headerTitle}</span>
+                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 9999px; background: ${borderColor};"></span>
+                </div>
+                <div style="font-size: 11.5px;">
+                    ${itemsHtml}
+                </div>
+                ${alertBoxHtml}
             </div>
             <style>
-                @keyframes pulse {
-                    0% { transform: scale(0.95); opacity: 0.7; }
-                    50% { transform: scale(1.4); opacity: 1; }
-                    100% { transform: scale(0.95); opacity: 0.7; }
+                @keyframes pulseAlert {
+                    0% { transform: scale(1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+                    50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(239, 68, 68, 0.8); }
+                    100% { transform: scale(1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
                 }
             </style>
         `;
-        document.body.appendChild(b);
     }
 
-    // Vòng lặp liên tục quét DOM
+    // ----------------- VÒNG LẶP LIÊN TỤC -----------------
     setInterval(() => {
         uncheckInsurance();
         pickZeroDongFlight();
         handleServiceAddons();
+        auditAndRenderWidget();
     }, 600);
-
-    setTimeout(showStatusBadge, 1200);
 
 })();

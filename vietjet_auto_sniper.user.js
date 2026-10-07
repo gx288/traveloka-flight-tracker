@@ -1,464 +1,326 @@
 // ==UserScript==
-// @name         Vietjet 0đ Auto-Sniper, Flight Auditor & One-Click VietQR
+// @name         Vietjet 0đ Sniper v2 (Bắt 0đ + Gỡ hành lý/bảo hiểm + VietQR + Auditor)
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      1.8.0
-// @description  Tự động bắt vé 0đ, tự mở & hủy hành lý 400k/bảo hiểm (chuẩn không kẹt), tự tích điều khoản Passengers, tự chọn VietQR, soi chuẩn Tên khách + Khứ hồi!
+// @version      2.0.0
+// @description  Viết lại sạch: phát hiện vé 0đ đúng định dạng giá Vietjet, gỡ hành lý/bảo hiểm 1 lần không lặp, tích điều khoản, chọn VietQR có kiểm tra, bảng soi lỗi không chặn click.
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
-// @match        https://*.abay.vn/*
 // @grant        none
 // @run-at       document-idle
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
-    console.log("⚡ [Vietjet Sniper v1.8.0] Khởi chạy Sniper v1.8.0...");
-
-    // ----------------- CẤU HÌNH THÔNG TIN CHUẨN -----------------
-    const TARGET = {
+    // ======================= CẤU HÌNH =======================
+    const CFG = {
         passengerRegex: /TRAN\s*THI\s*KIM\s*TINH|TRẦN\s*THỊ\s*KIM\s*TĨNH/i,
-        departDateRegex: /21\/10\/2026|21\s*tháng\s*10/i,
-        departRouteRegex: /VII.*SGN|Vinh.*Hồ Chí Minh/i,
-        returnDateRegex: /22\/10\/2026|22\s*tháng\s*10|VJ216/i,
-        returnRouteRegex: /SGN.*VII|Hồ Chí Minh.*Vinh/i
+        departDate: '21/10/2026',
+        returnDate: '22/10/2026',      // để '' nếu bay 1 chiều
+        AUTO_CLICK_ZERO: false,        // true = tự click vé 0đ đầu tiên (có thể chọn sai giờ bay)
+        TICK_MS: 500,
     };
 
-    // ----------------- ÂM THANH BÁO ĐỘNG -----------------
-    let alerted0d = false;
-    let alertedError = false;
+    const BAGGAGE_TITLE = 'Chọn hành lý/Dịch vụ nối chuyến';
+    const INSURANCE_TITLE = 'Bảo hiểm du lịch Vietjet Travel Safe';
+    const log = (...a) => console.log('⚡[VJ Sniper]', ...a);
 
-    function playTone(freq, duration, type = "sine") {
+    // ======================= TIỆN ÍCH =======================
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    const txt = el => (el && el.textContent ? el.textContent.replace(/\s+/g, ' ').trim() : '');
+    const visible = el => !!el && el.offsetWidth > 0 && el.offsetHeight > 0;
+    const digits = s => parseInt(String(s).replace(/[^\d]/g, ''), 10);
+
+    function click(el) {
+        if (!el) return;
+        if (typeof el.click === 'function') el.click();
+        else el.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    }
+
+    function beep(freqs) {
         try {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.type = type;
-            osc.frequency.setValueAtTime(freq, ctx.currentTime);
-            gain.gain.setValueAtTime(0.3, ctx.currentTime);
-            osc.start();
-            osc.stop(ctx.currentTime + duration);
-        } catch(e) {}
-    }
-
-    function soundSuccess() {
-        if (alerted0d) return;
-        alerted0d = true;
-        playTone(880, 0.4);
-        setTimeout(() => playTone(1174, 0.6), 250);
-    }
-
-    function soundError() {
-        if (alertedError) return;
-        alertedError = true;
-        playTone(300, 0.3, "sawtooth");
-        setTimeout(() => playTone(220, 0.5, "sawtooth"), 250);
-    }
-
-    function triggerClick(el) {
-        if (!el) return;
-        el.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
-        el.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-        el.click();
-        el.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
-    }
-
-    // ----------------- 1. TỰ ĐỘNG BẮT VÉ 0Đ TRÊN LỊCH THÁNG -----------------
-    function pickZeroDongFlight() {
-        const cells = document.querySelectorAll('td, div, button, span');
-        cells.forEach(el => {
-            const text = (el.innerText || "").trim();
-            if (/^0\s*(đ|vnd|vnds)/i.test(text) || text === "0 đ" || text === "0đ") {
-                if (!el.dataset.sniperClicked) {
-                    el.dataset.sniperClicked = "true";
-                    el.style.border = "3px solid #22c55e";
-                    el.style.backgroundColor = "rgba(34, 197, 94, 0.2)";
-                    console.log("🎯 [Sniper] PHÁT HIỆN VÉ 0 ĐỒNG! Đang tự động click chọn...");
-                    triggerClick(el);
-                    soundSuccess();
-                }
-            }
-        });
-    }
-
-    // ----------------- 2. TỰ ĐỘNG TÍCH ĐIỀU KHOẢN (TRANG PASSENGERS & PAYMENT) -----------------
-    function autoTickTermsCheckboxes() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(cb => {
-            const parent = cb.closest('label') || cb.closest('.MuiFormControlLabel-root') || cb.closest('div') || cb.parentElement;
-            const text = (parent ? parent.innerText : "").toLowerCase();
-
-            // Tuyệt đối không tích bảo hiểm
-            if (text.includes("bảo hiểm") || text.includes("insurance")) return;
-
-            // Bắt điều khoản quy định trang Passengers
-            if (text.includes("tôi đã đọc") ||
-                text.includes("quyền riêng tư") ||
-                text.includes("điều lệ vận chuyển") ||
-                text.includes("điều kiện vé") ||
-                text.includes("vật dụng bị cấm") ||
-                text.includes("đồng ý với") ||
-                text.includes("điều khoản") ||
-                text.includes("chính sách") ||
-                text.includes("terms") ||
-                text.includes("conditions")) {
-                
-                if (!cb.checked) {
-                    console.log("⚡ [Sniper Auto] Đã tự động tích chọn: Điều khoản quy định!");
-                    triggerClick(cb);
-                    if (cb.closest('label')) {
-                        triggerClick(cb.closest('label'));
-                    }
-                }
-            }
-        });
-
-        // Highlight nút "Đi tiếp" trên trang Passengers
-        const isPassenger = document.body && (
-            document.body.innerText.includes("Thông tin hành khách") ||
-            document.body.innerText.includes("Danh xưng") ||
-            window.location.href.includes("passenger")
-        );
-        if (isPassenger) {
-            const buttons = document.querySelectorAll('button');
-            buttons.forEach(btn => {
-                const txt = (btn.innerText || "").trim().toLowerCase();
-                if (txt === "đi tiếp" || txt.includes("đi tiếp") || txt === "tiếp tục") {
-                    btn.style.boxShadow = "0 0 20px #22c55e";
-                    btn.style.transform = "scale(1.04)";
-                    btn.style.fontWeight = "bold";
-                }
+            freqs.forEach((f, i) => {
+                const o = ctx.createOscillator(), g = ctx.createGain();
+                o.connect(g); g.connect(ctx.destination);
+                o.frequency.value = f; g.gain.value = 0.3;
+                o.start(ctx.currentTime + i * 0.25);
+                o.stop(ctx.currentTime + i * 0.25 + 0.22);
             });
+        } catch (e) { /* trình duyệt chặn audio khi chưa tương tác */ }
+    }
+
+    function findByExactText(selector, text) {
+        for (const el of document.querySelectorAll(selector)) {
+            if (txt(el) === text) return el;
+        }
+        return null;
+    }
+
+    // Thẻ dịch vụ = tổ tiên cao nhất vẫn có cursor:pointer (thẻ .jssXXX có cursor:pointer)
+    function cardOf(el) {
+        let card = el, cur = el;
+        for (let i = 0; i < 10 && cur && cur !== document.body; i++) {
+            if (getComputedStyle(cur).cursor === 'pointer') card = cur;
+            cur = cur.parentElement;
+        }
+        return card;
+    }
+
+    // ======================= TRẠNG THÁI THEO TRANG =======================
+    let page = '';
+    let S = {};
+    function resetState() {
+        S = {
+            zeroAlerted: false, zeroClicked: false,
+            bagTries: 0, insDone: false, lastOpen: 0, busy: false, handledDrawers: new Set(),
+            qrDone: false, qrTries: 0, qrLast: 0,
+            errBeeped: false, widgetHtml: '',
+        };
+    }
+    resetState();
+
+    function detectPage(t) {
+        if (t.includes('Phương thức thanh toán') && t.includes('Chi tiết thanh toán')) return 'payment';
+        if (t.includes(BAGGAGE_TITLE) || t.includes(INSURANCE_TITLE)) return 'service';
+        if (t.includes('Tôi đã đọc, hiểu và đồng ý') || (t.includes('Thông tin hành khách') && t.includes('Danh xưng'))) return 'passengers';
+        if (t.includes('Bay thẳng') || t.includes('Hết chỗ') || /\d{1,2} tháng \d{1,2}/.test(t) && t.includes('VND')) return 'flight';
+        if (t.includes('Điểm khởi hành') && t.includes('Tìm chuyến bay')) return 'home';
+        return 'other';
+    }
+
+    // ======================= 1. VÉ 0Đ (trang chọn chuyến) =======================
+    // Giá hiển thị tách node: "375" + "000 VND"  →  vé 0đ = "0" + "000 VND" hoặc "0 VND"
+    function scanZeroFares() {
+        const zeros = [];
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+            acceptNode: n => /VND/i.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT,
+        });
+        let n;
+        while ((n = walker.nextNode())) {
+            let priceEl = null, cur = n.parentElement;
+            for (let i = 0; i < 3 && cur; i++) {
+                if (/^(Từ\s*)?\d[\d.,\s]*VND$/i.test(txt(cur))) priceEl = cur;
+                cur = cur.parentElement;
+            }
+            if (!priceEl || digits(txt(priceEl)) !== 0 || zeros.includes(priceEl)) continue;
+            // Bỏ qua cột "Thông tin đặt chỗ" (Tổng tiền / Dịch vụ / Giá vé / Thuế, phí = 0 VND khi chưa chọn)
+            const ctx = txt(priceEl.parentElement) + ' ' + txt(priceEl.parentElement && priceEl.parentElement.parentElement);
+            if (/Tổng tiền|Dịch vụ|Giá vé|Thuế|Tạm tính|Phí tiện ích|Mã khuyến mãi/i.test(ctx)) continue;
+            zeros.push(priceEl);
+        }
+        zeros.forEach(el => {
+            el.style.outline = '3px solid #22c55e';
+            el.style.background = 'rgba(34,197,94,.25)';
+        });
+        if (zeros.length && !S.zeroAlerted) {
+            S.zeroAlerted = true;
+            log(`PHÁT HIỆN ${zeros.length} vé 0đ!`);
+            beep([880, 1175, 1568]);
+        }
+        if (zeros.length && CFG.AUTO_CLICK_ZERO && !S.zeroClicked) {
+            S.zeroClicked = true;
+            click(zeros[0]);
         }
     }
 
-    // ----------------- 3. TỰ ĐỘNG HỦY HÀNH LÝ 400K & BẢO HIỂM -----------------
-    let lastTabTime = 0;
+    // ======================= 2. TÍCH ĐIỀU KHOẢN =======================
+    const tickTimes = new WeakMap();
+    function tickTerms() {
+        for (const cb of document.querySelectorAll('input[type="checkbox"]')) {
+            if (cb.disabled) continue;
+            let label = '', cur = cb.parentElement;
+            for (let i = 0; i < 6 && cur; i++) {
+                const t = txt(cur);
+                if (t.length >= 15) { label = t; break; }
+                cur = cur.parentElement;
+            }
+            if (!label || label.length > 800) continue;
+            if (/bảo hiểm|insurance/i.test(label)) continue;
+            if (!/tôi đã đọc|điều lệ vận chuyển/i.test(label)) continue;
 
-    function autoDismissDrawers() {
-        // --- A. KHI DRAWER ĐANG MỞ (HÀNH LÝ HOẶC BẢO HIỂM) ---
-        const drawer = document.querySelector('.MuiDrawer-paper, .MuiDialog-root');
-        if (drawer && drawer.offsetWidth > 0 && drawer.offsetHeight > 0) {
-            // Xử lý Tabs Chuyến đi / Chuyến về
-            const tabs = drawer.querySelectorAll('button[role="tab"]');
+            const root = cb.closest('.MuiCheckbox-root');
+            const checked = root ? root.classList.contains('Mui-checked') : cb.checked;
+            if (checked) continue;
+            const last = tickTimes.get(cb) || 0;
+            if (Date.now() - last < 1500) continue;   // chống bấm 2 lần làm bỏ tích
+            tickTimes.set(cb, Date.now());
+            click(cb);                                  // CHỈ click input, không click thêm label
+            log('Đã tích ô điều khoản');
+        }
+    }
+
+    // ======================= 3. GỠ HÀNH LÝ + BẢO HIỂM =======================
+    function pickNoThanks(drawer) {
+        let done = false;
+        for (const inp of drawer.querySelectorAll('input[type="radio"][value="noChoise"]')) {
+            if (!visible(inp.closest('label') || inp.parentElement)) continue;
+            const root = inp.closest('.MuiRadio-root');
+            if (root && root.classList.contains('Mui-checked')) { done = true; continue; }
+            click(inp.closest('label') || inp);
+            done = true;
+        }
+        if (!done) {
+            for (const lb of drawer.querySelectorAll('label')) {
+                if (/^không, c[ảá]m ơn$/i.test(txt(lb)) && visible(lb)) { click(lb); done = true; }
+            }
+        }
+        return done;
+    }
+
+    async function clearDrawer(drawer, title) {
+        S.busy = true;
+        try {
+            const tabs = [...drawer.querySelectorAll('[role="tab"]')];
             if (tabs.length > 1) {
-                const now = Date.now();
-                if (tabs[0].getAttribute('aria-selected') === 'true' && !drawer.dataset.tab1Done) {
-                    selectNoChoiceInContainer(drawer);
-                    if (now - lastTabTime > 400) {
-                        lastTabTime = now;
-                        drawer.dataset.tab1Done = "true";
-                        console.log("⚡ [Sniper Auto] Đã bỏ chọn Chuyến đi, chuyển Chuyến về...");
-                        triggerClick(tabs[1]);
-                        return;
-                    }
-                } else if (tabs[1].getAttribute('aria-selected') === 'true' && !drawer.dataset.tab2Done) {
-                    selectNoChoiceInContainer(drawer);
-                    drawer.dataset.tab2Done = "true";
-                    console.log("⚡ [Sniper Auto] Đã bỏ chọn Chuyến về!");
+                for (const tab of tabs) {
+                    click(tab);
+                    await sleep(450);
+                    pickNoThanks(drawer);
+                    await sleep(250);
                 }
             } else {
-                selectNoChoiceInContainer(drawer);
+                pickNoThanks(drawer);
+                await sleep(300);
             }
+            const btn = [...drawer.querySelectorAll('button')].find(b => txt(b) === 'Xác nhận');
+            if (btn) { click(btn); log(`Đã chọn "Không, cảm ơn" + Xác nhận: ${title}`); }
+            await sleep(900);
+        } finally {
+            S.busy = false;
+        }
+    }
 
-            // Tự động click nút "Xác nhận"
-            const buttons = drawer.querySelectorAll('button');
-            buttons.forEach(btn => {
-                const bTxt = (btn.innerText || "").trim().toLowerCase();
-                if (bTxt.includes("xác nhận")) {
-                    if (!btn.dataset.autoConfirmed) {
-                        btn.dataset.autoConfirmed = "true";
-                        setTimeout(() => {
-                            triggerClick(btn);
-                            console.log("⚡ [Sniper Auto] Đã tự động click nút: XÁC NHẬN!");
-                        }, 250);
-                    }
-                }
-            });
+    function handleService() {
+        if (S.busy) return;
+
+        // A. Có drawer hành lý/bảo hiểm đang mở → xử lý đúng 1 lần cho mỗi lần mở
+        const drawer = [...document.querySelectorAll('.MuiDrawer-paper')].find(visible);
+        if (drawer) {
+            const title = txt(drawer.querySelector('h4'));
+            if (/hành lý|bảo hiểm/i.test(title) && !S.handledDrawers.has(title)) {
+                S.handledDrawers.add(title);
+                clearDrawer(drawer, title);
+            }
             return;
         }
+        S.handledDrawers.clear();
 
-        // --- B. KHI DRAWER CHƯA MỞ (TRANG SELECT-SERVICE) ---
-        const isServicePage = document.body && (
-            document.body.innerText.includes("Chọn hành lý") ||
-            window.location.href.includes("select-service")
-        );
-        if (!isServicePage) return;
+        const now = Date.now();
+        if (now - S.lastOpen < 2500) return;
 
-        // 1. Tự động mở thẻ Hành lý nếu thấy Vietjet đang tự gài Gói 20kg (khôi phục bản chuẩn v1.4.0)
-        const allDivs = document.querySelectorAll('div');
-        for (let card of allDivs) {
-            const txt = card.innerText || "";
-            if (txt.includes("Chọn hành lý") && (txt.includes("Gói 20kg") || txt.includes("200,000 VND") || txt.includes("400,000 VND"))) {
-                if (!card.dataset.openedBySniper) {
-                    card.dataset.openedBySniper = "true";
-                    console.log("⚡ [Sniper Auto] Phát hiện hành lý 20kg, tự động click mở để gỡ bỏ...");
-                    triggerClick(card);
-                    break;
-                }
+        // B. Hành lý đang bị gài (thẻ có "Gói 20kg" / giá) → mở thẻ, tối đa 3 lần
+        const bagTitle = findByExactText('span', BAGGAGE_TITLE);
+        if (bagTitle) {
+            const card = cardOf(bagTitle);
+            const hasBag = /Gói\s*\d+\s*kg/i.test(txt(card)) || /[1-9][\d,.]*\s*VND/.test(txt(card));
+            if (hasBag && S.bagTries < 3) {
+                S.bagTries++; S.lastOpen = now;
+                log(`Mở thẻ hành lý để gỡ (lần ${S.bagTries})`);
+                click(bagTitle);               // click node trong cùng → nổi bọt lên onClick của thẻ
+                return;
             }
         }
 
-        // 2. Tự động mở thẻ Bảo hiểm NẾU Bảo hiểm đang có phí (> 0 VND)
-        for (let card of allDivs) {
-            const txt = card.innerText || "";
-            if (txt.includes("Vietjet Travel Safe") && (txt.includes("44,000 VND") || txt.includes("88,000 VND") || txt.includes("VND"))) {
-                if (!card.dataset.openedInsuranceBySniper) {
-                    card.dataset.openedInsuranceBySniper = "true";
-                    console.log("⚡ [Sniper Auto] Phát hiện bảo hiểm có tính tiền, tự động click mở để hủy...");
-                    triggerClick(card);
-                    break;
-                }
-            }
+        // C. Bảo hiểm (Vietjet chọn sẵn "Đồng ý mua") → mở đúng 1 lần để chọn "Không, cảm ơn"
+        const insTitle = findByExactText('span', INSURANCE_TITLE);
+        if (insTitle && !S.insDone) {
+            S.insDone = true; S.lastOpen = now;
+            log('Mở thẻ bảo hiểm để gỡ (1 lần duy nhất)');
+            click(insTitle);
         }
-
-        // Highlight nút "Đi tiếp" trên trang dịch vụ
-        const proceedButtons = document.querySelectorAll('button');
-        proceedButtons.forEach(btn => {
-            if ((btn.innerText || "").includes("Đi tiếp")) {
-                btn.style.boxShadow = "0 0 15px #22c55e";
-                btn.style.transform = "scale(1.05)";
-                btn.style.transition = "all 0.3s ease";
-            }
-        });
     }
 
-    function selectNoChoiceInContainer(container) {
-        const noChoiceInputs = container.querySelectorAll('input[type="radio"][value="noChoise"], input[value="noChoise"]');
-        noChoiceInputs.forEach(inp => {
-            const label = inp.closest('label') || inp.parentElement;
-            if (!inp.checked) {
-                console.log("⚡ [Sniper Auto] Tự động click: Không, cảm ơn!");
-                triggerClick(label || inp);
-            }
-        });
+    // ======================= 4. CHỌN VIETQR =======================
+    function handlePayment() {
+        if (S.qrDone || S.qrTries >= 4) return;
+        const now = Date.now();
+        if (now - S.qrLast < 1000) return;
 
-        const labels = container.querySelectorAll('label, span');
-        labels.forEach(lbl => {
-            const t = (lbl.innerText || "").trim().toLowerCase();
-            if (t === "không, cảm ơn" || t === "không, cám ơn") {
-                const radio = lbl.querySelector('input[type="radio"]') || lbl;
-                triggerClick(radio);
-            }
-        });
+        const card = [...document.querySelectorAll('.MuiPaper-root')].find(p => txt(p) === 'Mobile Banking VietQR');
+        if (!card) return;
+
+        // Thẻ đang được chọn có thêm 1 class so với các thẻ khác cùng nhóm
+        const peers = [...card.parentElement.parentElement.querySelectorAll('.MuiPaper-root')];
+        const minCls = Math.min(...peers.map(p => p.classList.length));
+        if (card.classList.length > minCls) {
+            S.qrDone = true;
+            card.style.outline = '3px solid #22c55e';
+            log('VietQR đã được chọn ✔');
+            return;
+        }
+        S.qrTries++; S.qrLast = now;
+        click(S.qrTries % 2 ? card : card.parentElement);
+        log(`Click chọn Mobile Banking VietQR (lần ${S.qrTries})`);
     }
 
-    // ----------------- 4. TRANG THANH TOÁN: CHỌN VIETQR -----------------
-    function handlePaymentPage() {
-        const isPayment = document.body && (
-            document.body.innerText.includes("Phương thức thanh toán") ||
-            document.body.innerText.includes("Mobile Banking VietQR") ||
-            document.body.innerText.includes("Chi tiết thanh toán")
-        );
-        if (!isPayment) return;
-
-        // Tự động click chọn phương thức "Mobile Banking VietQR"
-        const allElements = document.querySelectorAll('span, div, img');
-        allElements.forEach(el => {
-            const txt = (el.innerText || "").trim();
-            const src = el.getAttribute('src') || "";
-            if (txt === "Mobile Banking VietQR" || (txt.includes("Mobile Banking VietQR") && txt.length < 35) || src.includes("vietqrtrans")) {
-                const card = el.closest('.MuiPaper-root') || el.closest('div[style*="width: 18%"]') || el.parentElement;
-                if (card && !card.dataset.sniperVietQrSelected) {
-                    card.dataset.sniperVietQrSelected = "true";
-                    console.log("⚡ [Sniper Auto] Đang tự động click chọn: Mobile Banking VietQR!");
-                    triggerClick(el);
-                    triggerClick(card);
-                    if (card.parentElement) triggerClick(card.parentElement);
-                    card.style.border = "3px solid #22c55e";
-                    card.style.boxShadow = "0 0 20px rgba(34, 197, 94, 0.8)";
-                }
-            }
-        });
-
-        // Highlight nút "Thanh toán"
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(btn => {
-            const bTxt = (btn.innerText || "").trim().toLowerCase();
-            if (bTxt === "thanh toán" || bTxt.includes("thanh toán")) {
-                btn.style.boxShadow = "0 0 25px #22c55e";
-                btn.style.transform = "scale(1.06)";
-                btn.style.transition = "all 0.3s ease";
-                btn.style.fontWeight = "bold";
-            }
-        });
+    // ======================= 5. BẢNG SOI LỖI =======================
+    function serviceFeeTotal() {
+        let total = 0, found = false;
+        for (const h of document.querySelectorAll('h4')) {
+            if (txt(h) !== 'Dịch vụ') continue;
+            const v = h.nextElementSibling;
+            if (v && /VND/.test(txt(v))) { total += digits(txt(v)) || 0; found = true; }
+        }
+        return found ? total : null;
     }
 
-    // ----------------- 5. TRANG CHỦ: HỖ TRỢ NÚT TÌM CHUYẾN BAY -----------------
-    function handleHomepage() {
-        const isHome = document.body && (
-            document.body.innerText.includes("Điểm khởi hành") &&
-            document.body.innerText.includes("Tìm chuyến bay")
-        );
-        if (!isHome) return;
+    function renderAuditor(t) {
+        const items = [], errors = [];
+        const add = (ok, label) => { items.push({ ok, label }); if (ok === false) errors.push(label); };
 
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(btn => {
-            const txt = (btn.innerText || "").trim().toLowerCase();
-            if (txt === "tìm chuyến bay" || txt.includes("tìm chuyến bay")) {
-                btn.style.boxShadow = "0 0 25px #ef4444";
-                btn.style.fontWeight = "bold";
-            }
-        });
+        add(t.includes(CFG.departDate), `Chiều đi ${CFG.departDate}`);
+        if (CFG.returnDate) add(t.includes(CFG.returnDate), `Chiều về ${CFG.returnDate}`);
+        if (page !== 'passengers') add(CFG.passengerRegex.test(t), 'Tên khách: TRAN THI KIM TINH');
+
+        const fee = serviceFeeTotal();
+        if (fee !== null) add(fee === 0, fee === 0 ? 'Phí dịch vụ: 0đ' : `Phí dịch vụ: ${fee.toLocaleString('vi-VN')}đ`);
+        if (page === 'payment') add(S.qrDone ? true : null, S.qrDone ? 'Thanh toán: VietQR' : 'Thanh toán: đang chọn VietQR...');
+
+        if (page === 'payment' && errors.length && !S.errBeeped) { S.errBeeped = true; beep([330, 220]); }
+
+        const bad = errors.length > 0;
+        const color = bad ? '#ef4444' : '#22c55e';
+        const rows = items.map(i => {
+            const ic = i.ok === true ? '✅' : i.ok === false ? '❌' : '⏳';
+            const c = i.ok === true ? '#4ade80' : i.ok === false ? '#f87171' : '#cbd5e1';
+            return `<div style="color:${c};margin:3px 0">${ic} ${i.label}</div>`;
+        }).join('');
+        const html = `<div style="position:fixed;top:12px;right:12px;z-index:2147483647;pointer-events:none;
+            width:270px;background:rgba(15,23,42,.92);border:2px solid ${color};border-radius:10px;padding:10px 12px;
+            font:12px/1.4 system-ui,sans-serif;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.5)">
+            <div style="font-weight:800;color:${color};margin-bottom:4px">${bad ? '🚨 CÓ LỖI – KIỂM TRA LẠI' : '✅ VÉ ĐÚNG THÔNG TIN'} <span style="color:#94a3b8;font-weight:400">(${page})</span></div>
+            ${rows}</div>`;
+
+        let box = document.getElementById('vj-auditor');
+        if (!box) { box = document.createElement('div'); box.id = 'vj-auditor'; document.body.appendChild(box); }
+        if (html !== S.widgetHtml) { box.innerHTML = html; S.widgetHtml = html; }
     }
 
-    // ----------------- 6. AUDITOR GÓC MÀN HÌNH: SOI LỖI VÉ & PHÍ DỊCH VỤ -----------------
-    function auditAndRenderWidget() {
-        const pageText = document.body ? document.body.innerText : "";
-        if (!pageText || pageText.length < 50) return;
-
-        const isService = pageText.includes("Chọn hành lý") || pageText.includes("Bảo hiểm du lịch");
-        const isPayment = pageText.includes("Phương thức thanh toán") || pageText.includes("Chi tiết thanh toán");
-
-        let errors = [];
-        let items = [];
-
-        // Chiều đi
-        const okDepart = TARGET.departDateRegex.test(pageText);
-        if (okDepart) {
-            items.push({ status: "ok", text: "Chiều đi: VII ➔ SGN (21/10/2026)" });
-        } else {
-            if (isService || isPayment) {
-                errors.push("Sai hoặc thiếu ngày đi 21/10/2026!");
-                items.push({ status: "error", text: "Chiều đi: Chưa thấy 21/10/2026" });
-            } else {
-                items.push({ status: "pending", text: "Chiều đi: Đang tìm 21/10/2026..." });
-            }
-        }
-
-        // Chiều về
-        const okReturn = TARGET.returnDateRegex.test(pageText);
-        if (okReturn) {
-            items.push({ status: "ok", text: "Chiều về: SGN ➔ VII (22/10/2026)" });
-        } else {
-            if (isService || isPayment) {
-                errors.push("THIẾU CHUYẾN VỀ 22/10! (Đang là vé 1 chiều)");
-                items.push({ status: "error", text: "Chiều về: THIẾU CHUYẾN VỀ 22/10!" });
-            } else {
-                items.push({ status: "pending", text: "Chiều về: Đang tìm 22/10/2026..." });
-            }
-        }
-
-        // Tên khách
-        const okPassenger = TARGET.passengerRegex.test(pageText);
-        if (okPassenger) {
-            items.push({ status: "ok", text: "Khách: TRẦN THỊ KIM TĨNH" });
-        } else {
-            if (isService || isPayment) {
-                errors.push("Chưa đúng tên khách: TRAN THI KIM TINH!");
-                items.push({ status: "error", text: "Khách: Chưa có tên Kim Tĩnh" });
-            } else {
-                items.push({ status: "pending", text: "Khách: Cần điền TRAN THI KIM TINH" });
-            }
-        }
-
-        // Phí dịch vụ
-        let detectedServiceFee = 0;
-        const allTextElements = document.querySelectorAll('h4, div, span, p');
-        allTextElements.forEach(el => {
-            const t = el.innerText || "";
-            const m = t.match(/dịch vụ[\s\S]{0,30}?([\d,.]+)\s*vnd/i);
-            if (m) {
-                const amt = parseInt(m[1].replace(/[,.]/g, ''), 10);
-                if (amt > detectedServiceFee) {
-                    detectedServiceFee = amt;
-                }
-            }
-        });
-
-        if (detectedServiceFee > 0 && (isService || isPayment)) {
-            errors.push(`DÍNH PHÍ DỊCH VỤ: ${detectedServiceFee.toLocaleString('vi-VN')} đ!`);
-            items.push({ status: "error", text: `Phí Dịch vụ: ${detectedServiceFee.toLocaleString('vi-VN')} đ (Đang gỡ...)` });
-        } else if (isService || isPayment) {
-            items.push({ status: "ok", text: "Phí Dịch vụ: 0 đ (Sạch)" });
-        }
-
-        // VietQR status
-        if (isPayment) {
-            items.push({ status: "ok", text: "Thanh toán: Mobile Banking VietQR" });
-        }
-
-        // Render Widget
-        let box = document.getElementById('vj-auditor-widget');
-        if (!box) {
-            box = document.createElement('div');
-            box.id = 'vj-auditor-widget';
-            document.body.appendChild(box);
-        }
-
-        const hasError = errors.length > 0;
-        if (hasError && (isService || isPayment)) {
-            soundError();
-        }
-
-        const borderColor = hasError ? "#ef4444" : "#22c55e";
-        const headerBg = hasError ? "rgba(239, 68, 68, 0.25)" : "rgba(34, 197, 94, 0.25)";
-        const headerTitle = hasError ? "🚨 PHÁT HIỆN LỖI VÉ / PHỤ PHÍ!" : "✅ THÔNG TIN CHUẨN XÁC 100%";
-
-        let itemsHtml = items.map(it => {
-            let icon = "⏳";
-            let color = "#94a3b8";
-            if (it.status === "ok") { icon = "✅"; color = "#4ade80"; }
-            if (it.status === "error") { icon = "❌"; color = "#f87171"; }
-            return `<div style="color: ${color}; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; font-weight: ${it.status === 'error' ? 'bold' : 'normal'};">
-                <span>${icon}</span> <span>${it.text}</span>
-            </div>`;
-        }).join("");
-
-        let alertBoxHtml = "";
-        if (hasError) {
-            alertBoxHtml = `<div style="background: #b91c1c; color: #fff; padding: 8px 10px; border-radius: 6px; font-weight: bold; margin-top: 8px; font-size: 11.5px; border: 1px solid #ef4444;">
-                ${errors.map(e => `• ${e}`).join("<br>")}
-            </div>`;
-        }
-
-        box.innerHTML = `
-            <div style="
-                position: fixed;
-                top: 15px;
-                right: 15px;
-                z-index: 9999999;
-                width: 330px;
-                background: #0f172a;
-                border: 2px solid ${borderColor};
-                border-radius: 12px;
-                padding: 12px 14px;
-                box-shadow: 0 12px 25px rgba(0,0,0,0.7);
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                font-size: 12px;
-                line-height: 1.4;
-                backdrop-filter: blur(8px);
-                animation: ${hasError ? 'pulseAlert 1.2s infinite' : 'none'};
-            ">
-                <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 8px; background: ${headerBg}; padding: 6px 8px; border-radius: 6px;">
-                    <span style="font-weight: 800; color: ${borderColor}; font-size: 13px;">${headerTitle}</span>
-                    <span style="display: inline-block; width: 10px; height: 10px; border-radius: 9999px; background: ${borderColor};"></span>
-                </div>
-                <div style="font-size: 11.5px;">
-                    ${itemsHtml}
-                </div>
-                ${alertBoxHtml}
-            </div>
-            <style>
-                @keyframes pulseAlert {
-                    0% { transform: scale(1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
-                    50% { transform: scale(1.02); box-shadow: 0 0 25px rgba(239, 68, 68, 0.8); }
-                    100% { transform: scale(1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
-                }
-            </style>
-        `;
+    function hideAuditor() {
+        const box = document.getElementById('vj-auditor');
+        if (box && box.innerHTML) { box.innerHTML = ''; S.widgetHtml = ''; }
     }
 
-    // ----------------- VÒNG LẶP LIÊN TỤC -----------------
-    setInterval(() => {
-        pickZeroDongFlight();
-        autoTickTermsCheckboxes();
-        autoDismissDrawers();
-        handlePaymentPage();
-        handleHomepage();
-        auditAndRenderWidget();
-    }, 300);
+    // ======================= VÒNG LẶP CHÍNH =======================
+    function tick() {
+        if (!document.body) return;
+        const t = document.body.innerText || '';     // đọc 1 lần/tick để không làm lag trang
+        const p = detectPage(t);
+        if (p !== page) { page = p; resetState(); log('Trang:', page); }
 
+        try {
+            if (page === 'flight') scanZeroFares();
+            if (page === 'passengers' || page === 'payment') tickTerms();
+            if (page === 'service') handleService();
+            if (page === 'payment') handlePayment();
+            if (page === 'service' || page === 'payment' || page === 'passengers') renderAuditor(t);
+            else hideAuditor();
+        } catch (e) {
+            console.error('[VJ Sniper] lỗi:', e);
+        }
+    }
+
+    log('v2.0.0 đã chạy');
+    setInterval(tick, CFG.TICK_MS);
 })();

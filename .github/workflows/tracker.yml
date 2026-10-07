@@ -5,6 +5,22 @@ on:
     - cron: '0 * * * *'  # Chạy vào phút 0 mỗi giờ
   
   workflow_dispatch:      # Kích hoạt thủ công hoặc từ webhook cron-job.org
+    inputs:
+      burst:
+        description: 'Bật chế độ săn vé cao điểm (Burst Sniper Mode)'
+        required: false
+        type: boolean
+        default: false
+      duration:
+        description: 'Thời lượng săn vé (phút)'
+        required: false
+        type: number
+        default: 35
+      interval:
+        description: 'Khoảng cách giữa các lần quét (giây)'
+        required: false
+        type: number
+        default: 30
 
 permissions:
   contents: write
@@ -53,12 +69,16 @@ jobs:
         run: |
           playwright install --with-deps chromium
 
-      - name: 🚀 Chạy kịch bản quét giá vé Traveloka
+      - name: 🚀 Chạy kịch bản quét giá vé
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" python tracker.py
+          if [ "${{ inputs.burst }}" = "true" ]; then
+            python tracker.py --burst --duration ${{ inputs.duration || 35 }} --interval ${{ inputs.interval || 30 }}
+          else
+            python tracker.py
+          fi
 
       - name: 💾 Lưu lịch sử giá và đẩy lên GitHub (Commit & Push)
         run: |

@@ -1183,8 +1183,10 @@ async def main_tracker():
 
     # Check alert condition: if price < threshold
     if min_price < threshold:
-        print(f"\n[🚨 CẢNH BÁO] PHÁT HIỆN GIÁ VÉ DƯỚI {(threshold//1000):,}K: {min_price:,} VND!")
-        msg = f"""🚨 <b>CẢNH BÁO GIÁ VÉ DƯỚI {(threshold//1000):,}K!</b> 🚨
+        is_zero_dong = cheapest.get('base_price', 0) == 0 or min_price <= 680000
+        alert_title = "🎯🎯🎯 <b>PHÁT HIỆN VÉ 0 ĐỒNG VIETJET!</b> 🎯🎯🎯" if is_zero_dong else f"🚨 <b>CẢNH BÁO GIÁ VÉ DƯỚI {(threshold//1000):,}K!</b> 🚨"
+        print(f"\n[🚨 CẢNH BÁO] {alert_title}: {min_price:,} VND (Gốc: {cheapest['base_price']:,} đ)!")
+        msg = f"""{alert_title}
 
 ✈️ <b>Chặng bay ({cheapest.get('leg_display', 'Chiều đi')}):</b> {orig_name} ({orig_code}) ➔ {dest_name} ({dest_code})
 📅 <b>Ngày bay:</b> {cheapest['departure_date']}
@@ -1195,7 +1197,7 @@ async def main_tracker():
 🎯 <b>Mục tiêu:</b> &lt; {threshold:,} đ
 🌐 <b>Nguồn:</b> {source_name}
 
-👉 <a href="{abay_url}"><b>Đặt vé trên Abay</b></a> | <a href="{traveloka_url}"><b>Đặt trên Traveloka</b></a>
+👉 <a href="https://www.vietjetair.com/vi"><b>Mở VietjetAir.com</b></a> | <a href="{abay_url}"><b>Đặt trên Abay</b></a> | <a href="{traveloka_url}"><b>Traveloka</b></a>
 
 ⏱️ Thời gian quét: <code>{now_str}</code>"""
         alert_sent = send_telegram_alert(cfg, msg)
@@ -1231,4 +1233,35 @@ async def main_tracker():
     print("\n[✔] Quá trình quét và cập nhật đã hoàn tất thành công.")
 
 if __name__ == "__main__":
-    asyncio.run(main_tracker())
+    import argparse
+    parser = argparse.ArgumentParser(description="Flight Price Tracker & Vietjet Sniper")
+    parser.add_argument("--burst", action="store_true", help="Bật chế độ săn vé cao điểm liên tục")
+    parser.add_argument("--duration", type=int, default=35, help="Thời gian chạy burst tính bằng phút (mặc định: 35 phút)")
+    parser.add_argument("--interval", type=int, default=30, help="Khoảng cách giữa các lần quét tính bằng giây (mặc định: 30s)")
+    args = parser.parse_args()
+
+    if args.burst:
+        print("="*60)
+        print(f"[*] KÍCH HOẠT CHẾ ĐỘ SĂN VÉ CAO ĐIỂM (BURST SNIPER MODE)!")
+        print(f"[*] Thời lượng săn: {args.duration} phút | Tần suất quét: {args.interval} giây/lần")
+        print("="*60)
+        start_t = time.time()
+        max_duration_sec = args.duration * 60
+        iteration = 1
+        while time.time() - start_t < max_duration_sec:
+            print(f"\n--- [LƯỢT SĂN #{iteration}] Lúc {get_current_time_vn()} ---")
+            try:
+                asyncio.run(main_tracker())
+            except Exception as e:
+                print(f"[!] Lỗi lượt #{iteration}: {e}")
+            
+            elapsed = time.time() - start_t
+            if elapsed >= max_duration_sec:
+                break
+            remain_min = int((max_duration_sec - elapsed) / 60)
+            print(f"[*] Đang trực... Lượt tiếp theo sau {args.interval}s (Còn {remain_min} phút)...")
+            time.sleep(args.interval)
+            iteration += 1
+        print("[✔] Hoàn tất phiên săn vé cao điểm!")
+    else:
+        asyncio.run(main_tracker())

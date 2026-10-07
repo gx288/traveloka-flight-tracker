@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Vietjet 0đ Auto-Sniper, Flight Auditor & One-Click VietQR
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      1.5.0
-// @description  Tự động bắt vé 0đ, tự gỡ phụ phí/hành lý, tự chọn thanh toán VietQR & tích đồng ý điều khoản, soi chuẩn xác Tên khách + Khứ hồi!
+// @version      1.6.0
+// @description  Tự động bắt vé 0đ, tự mở & hủy hành lý 400k + bảo hiểm du lịch, tự chọn VietQR (không phụ thuộc URL), soi chuẩn Tên khách + Khứ hồi!
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
 // @match        https://*.abay.vn/*
@@ -13,7 +13,7 @@
 (function() {
     'use strict';
 
-    console.log("⚡ [Vietjet Sniper v1.5.0] Khởi chạy Sniper + Auditor + Auto VietQR...");
+    console.log("⚡ [Vietjet Sniper v1.6.0] Khởi chạy Full Automation (Hành lý + Bảo hiểm + VietQR + Auditor)...");
 
     // ----------------- CẤU HÌNH THÔNG TIN CHUẨN -----------------
     const TARGET = {
@@ -66,7 +66,7 @@
         el.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
     }
 
-    // ----------------- 1. TỰ ĐỘNG BẮT VÉ 0Đ -----------------
+    // ----------------- 1. TỰ ĐỘNG BẮT VÉ 0Đ TRÊN LỊCH THÁNG -----------------
     function pickZeroDongFlight() {
         const cells = document.querySelectorAll('td, div, button, span');
         cells.forEach(el => {
@@ -84,31 +84,37 @@
         });
     }
 
-    // ----------------- 2. TỰ ĐỘNG CLICK "KHÔNG, CẢM ƠN" & "XÁC NHẬN" (DRAWER BẢO HIỂM / HÀNH LÝ) -----------------
+    // ----------------- 2. TỰ ĐỘNG MỞ & BỎ CHỌN: HÀNH LÝ 400K & BẢO HIỂM DU LỊCH -----------------
     let lastTabSwitchTime = 0;
 
     function autoDismissDrawers() {
-        const drawers = document.querySelectorAll('.MuiDrawer-paper, .MuiDialog-root');
-        drawers.forEach(drawer => {
-            if (drawer.offsetWidth === 0 || drawer.offsetHeight === 0) return;
+        const isServicePage = document.body && (
+            document.body.innerText.includes("Chọn hành lý") ||
+            document.body.innerText.includes("Bảo hiểm du lịch") ||
+            window.location.href.includes("select-service")
+        );
+        if (!isServicePage) return;
 
+        // --- A. NẾU DRAWER ĐANG MỞ: TỰ CHỌN "KHÔNG, CẢM ƠN" VÀ "XÁC NHẬN" ---
+        const drawer = document.querySelector('.MuiDrawer-paper, .MuiDialog-root');
+        if (drawer && drawer.offsetWidth > 0 && drawer.offsetHeight > 0) {
             // Xử lý Tabs khứ hồi nếu có
             const tabs = drawer.querySelectorAll('button[role="tab"]');
             if (tabs.length > 1) {
                 const now = Date.now();
                 if (tabs[0].getAttribute('aria-selected') === 'true' && !drawer.dataset.tab1Handled) {
                     selectNoChoiceInContainer(drawer);
-                    if (now - lastTabSwitchTime > 500) {
+                    if (now - lastTabSwitchTime > 400) {
                         lastTabSwitchTime = now;
                         drawer.dataset.tab1Handled = "true";
-                        console.log("⚡ [Sniper Auto] Đã bỏ hành lý Chuyến đi, đang chuyển sang Chuyến về...");
+                        console.log("⚡ [Sniper Auto] Đã bỏ chọn Chuyến đi, chuyển sang Chuyến về...");
                         triggerClick(tabs[1]);
                         return;
                     }
                 } else if (tabs[1].getAttribute('aria-selected') === 'true' && !drawer.dataset.tab2Handled) {
                     selectNoChoiceInContainer(drawer);
                     drawer.dataset.tab2Handled = "true";
-                    console.log("⚡ [Sniper Auto] Đã bỏ hành lý Chuyến về!");
+                    console.log("⚡ [Sniper Auto] Đã bỏ chọn Chuyến về!");
                 }
             } else {
                 selectNoChoiceInContainer(drawer);
@@ -124,31 +130,59 @@
                         setTimeout(() => {
                             triggerClick(btn);
                             console.log("⚡ [Sniper Auto] Đã tự động click nút: XÁC NHẬN!");
-                        }, 300);
+                        }, 250);
                     }
                 }
             });
-        });
+            return; // Đang thao tác trong Drawer thì tạm dừng quét mở mới
+        }
 
-        // Tự động mở thẻ Hành lý nếu thấy Vietjet đang tự gài Gói 20kg
-        if (window.location.href.includes("select-service")) {
-            const isDrawerOpen = document.querySelector('.MuiDrawer-paperAnchorRight');
-            if (!isDrawerOpen) {
-                const cards = document.querySelectorAll('div');
-                cards.forEach(card => {
-                    const txt = card.innerText || "";
-                    if (txt.includes("Chọn hành lý") && (txt.includes("Gói 20kg") || txt.includes("200,000 VND") || txt.includes("400,000 VND"))) {
-                        if (!card.dataset.autoOpenedBySniper) {
-                            card.dataset.autoOpenedBySniper = "true";
-                            console.log("⚡ [Sniper Auto] Phát hiện hành lý 20kg, tự động click mở Drawer để gỡ...");
-                            triggerClick(card);
-                        }
-                    }
-                });
+        // --- B. NẾU DRAWER CHƯA MỞ: TUẦN TỰ MỞ HÀNH LÝ RỒI ĐẾN BẢO HIỂM ---
+        // 1. Mở thẻ Hành lý nếu thấy bị gài Gói 20kg
+        const cards = document.querySelectorAll('div, span');
+        let openedAny = false;
+        for (let card of cards) {
+            const txt = card.innerText || "";
+            if (txt.includes("Chọn hành lý") && (txt.includes("Gói 20kg") || txt.includes("200,000 VND") || txt.includes("400,000 VND"))) {
+                const clickable = card.closest('.jss683') || card.closest('div[role="button"]') || card;
+                if (!clickable.dataset.autoOpenedBaggage) {
+                    clickable.dataset.autoOpenedBaggage = "true";
+                    openedAny = true;
+                    console.log("⚡ [Sniper Auto] Phát hiện hành lý 20kg, tự động click mở Drawer gỡ bỏ...");
+                    triggerClick(clickable);
+                    break;
+                }
             }
         }
+
+        if (openedAny) return;
+
+        // 2. Mở thẻ Bảo hiểm du lịch Vietjet Travel Safe để hủy
+        for (let el of cards) {
+            const txt = (el.innerText || "").trim();
+            if (txt === "Bảo hiểm du lịch Vietjet Travel Safe" || (txt.includes("Bảo hiểm du lịch") && !txt.includes("Không, cảm ơn"))) {
+                const insCard = el.closest('.jss683') || el.closest('div[role="button"]') || el;
+                if (!insCard.dataset.autoOpenedInsurance) {
+                    insCard.dataset.autoOpenedInsurance = "true";
+                    console.log("⚡ [Sniper Auto] Tự động click mở thẻ Bảo hiểm du lịch để hủy...");
+                    triggerClick(insCard);
+                    break;
+                }
+            }
+        }
+
+        // Highlight nút "Đi tiếp" trên trang dịch vụ
+        const proceedButtons = document.querySelectorAll('button');
+        proceedButtons.forEach(btn => {
+            if ((btn.innerText || "").includes("Đi tiếp")) {
+                btn.style.boxShadow = "0 0 15px #22c55e";
+                btn.style.transform = "scale(1.05)";
+                btn.style.transition = "all 0.3s ease";
+            }
+        });
     }
 
+    // Helper: Tìm và click radio "Không, cảm ơn"
     function selectNoChoiceInContainer(container) {
         const noChoiceInputs = container.querySelectorAll('input[type="radio"][value="noChoise"], input[value="noChoise"]');
         noChoiceInputs.forEach(inp => {
@@ -169,46 +203,39 @@
         });
     }
 
-    // ----------------- 3. BẢO HIỂM: TỰ ĐỘNG GỠ CHECKBOX TRÊN TOÀN TRANG -----------------
-    function uncheckInsurance() {
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        checkboxes.forEach(cb => {
-            const label = (cb.parentElement ? cb.parentElement.innerText : "").toLowerCase();
-            if (label.includes("bảo hiểm") || label.includes("insurance") || label.includes("bảo việt") || label.includes("bảo minh")) {
-                if (cb.checked) {
-                    triggerClick(cb);
-                    console.log("⚡ [Sniper Auto] Đã tự động bỏ chọn checkbox bảo hiểm!");
-                }
-            }
-        });
-    }
-
-    // ----------------- 4. THANH TOÁN (payment): CHỌN VIETQR & TÍCH ĐIỀU KHOẢN -----------------
+    // ----------------- 3. TRANG THANH TOÁN: CHỌN VIETQR & TÍCH ĐIỀU KHOẢN (KHÔNG PHỤ THUỘC URL) -----------------
     function handlePaymentPage() {
-        if (!window.location.href.includes("payment")) return;
+        const isPayment = document.body && (
+            document.body.innerText.includes("Phương thức thanh toán") ||
+            document.body.innerText.includes("Mobile Banking VietQR") ||
+            document.body.innerText.includes("Chi tiết thanh toán")
+        );
+        if (!isPayment) return;
 
         // A. Tự động click chọn phương thức "Mobile Banking VietQR"
-        const allCards = document.querySelectorAll('.MuiPaper-root, div[role="button"], div');
-        allCards.forEach(card => {
-            const txt = (card.innerText || "").trim();
-            if (txt.includes("Mobile Banking VietQR") || txt === "VietQR") {
-                if (!card.dataset.sniperVietQrSelected) {
+        const allElements = document.querySelectorAll('span, div, img');
+        allElements.forEach(el => {
+            const txt = (el.innerText || "").trim();
+            const src = el.getAttribute('src') || "";
+            // Tìm theo text hoặc theo logo vietqr
+            if (txt === "Mobile Banking VietQR" || txt.includes("Mobile Banking VietQR") || src.includes("vietqrtrans")) {
+                const card = el.closest('.MuiPaper-root') || el.closest('div[style*="width: 18%"]') || el.parentElement;
+                if (card && !card.dataset.sniperVietQrSelected) {
                     card.dataset.sniperVietQrSelected = "true";
                     console.log("⚡ [Sniper Auto] Đang tự động click chọn: Mobile Banking VietQR!");
+                    triggerClick(el);
                     triggerClick(card);
                     card.style.border = "3px solid #22c55e";
-                    card.style.boxShadow = "0 0 15px rgba(34, 197, 94, 0.6)";
+                    card.style.boxShadow = "0 0 20px rgba(34, 197, 94, 0.8)";
                 }
             }
         });
 
-        // B. Tự động tích chọn "Đã đọc và đồng ý điều khoản"
+        // B. Tự động tích chọn checkbox Điều khoản
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(cb => {
             const parent = cb.closest('label') || cb.closest('div') || cb.parentElement;
             const labelText = (parent ? parent.innerText : "").toLowerCase();
-            
-            // Bỏ qua bảo hiểm
             if (labelText.includes("bảo hiểm") || labelText.includes("insurance")) return;
 
             if (labelText.includes("điều khoản") || 
@@ -239,16 +266,33 @@
         });
     }
 
+    // ----------------- 4. TRANG CHỦ: HỖ TRỢ NÚT TÌM CHUYẾN BAY -----------------
+    function handleHomepage() {
+        const isHome = document.body && (
+            document.body.innerText.includes("Điểm khởi hành") &&
+            document.body.innerText.includes("Tìm chuyến bay")
+        );
+        if (!isHome) return;
+
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(btn => {
+            const txt = (btn.innerText || "").trim().toLowerCase();
+            if (txt === "tìm chuyến bay" || txt.includes("tìm chuyến bay")) {
+                btn.style.boxShadow = "0 0 25px #ef4444";
+                btn.style.fontWeight = "bold";
+            }
+        });
+    }
+
     // ----------------- 5. AUDITOR GÓC MÀN HÌNH: SOI LỖI VÉ & PHÍ DỊCH VỤ -----------------
     function auditAndRenderWidget() {
-        const url = window.location.href;
         const pageText = document.body ? document.body.innerText : "";
         if (!pageText || pageText.length < 50) return;
 
-        const isFlight = url.includes("select-flight");
-        const isPassenger = url.includes("passenger");
-        const isService = url.includes("select-service");
-        const isPayment = url.includes("payment");
+        const isFlight = pageText.includes("VJ21") || pageText.includes("Airbus");
+        const isPassenger = pageText.includes("Thông tin hành khách") && pageText.includes("Danh xưng");
+        const isService = pageText.includes("Chọn hành lý") || pageText.includes("Bảo hiểm du lịch");
+        const isPayment = pageText.includes("Phương thức thanh toán") || pageText.includes("Chi tiết thanh toán");
 
         let errors = [];
         let items = [];
@@ -313,9 +357,9 @@
             items.push({ status: "ok", text: "Phí Dịch vụ: 0 đ (Sạch)" });
         }
 
-        // Thanh toán VietQR status
+        // VietQR status
         if (isPayment) {
-            items.push({ status: "ok", text: "Thanh toán: Mobile Banking VietQR (Đã chọn)" });
+            items.push({ status: "ok", text: "Thanh toán: Mobile Banking VietQR" });
         }
 
         // Render Widget
@@ -387,24 +431,14 @@
                 }
             </style>
         `;
-
-        // Highlight nút "Đi tiếp" trên trang dịch vụ
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(btn => {
-            if ((btn.innerText || "").includes("Đi tiếp")) {
-                btn.style.boxShadow = "0 0 15px #22c55e";
-                btn.style.transform = "scale(1.05)";
-                btn.style.transition = "all 0.3s ease";
-            }
-        });
     }
 
     // ----------------- VÒNG LẶP LIÊN TỤC -----------------
     setInterval(() => {
-        uncheckInsurance();
         pickZeroDongFlight();
         autoDismissDrawers();
         handlePaymentPage();
+        handleHomepage();
         auditAndRenderWidget();
     }, 400);
 

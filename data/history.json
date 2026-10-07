@@ -1055,5 +1055,32 @@
     },
     "source": "Abay Engine (Chuẩn giá nội địa)",
     "alert_sent": false
+  },
+  {
+    "timestamp": "2026-10-07 14:54:49",
+    "min_price": 1107000,
+    "flight_count": 30,
+    "cheapest_flight": {
+      "id": "abay_VJ_VJ215_10:20_outbound",
+      "price": 1107000,
+      "base_price": 375000,
+      "tax_fee": 732000,
+      "currency": "VND",
+      "airline": "Vietjet Air",
+      "airline_code": "VJ",
+      "flight_number": "VJ215",
+      "departure_time": "10:20",
+      "arrival_time": "12:10",
+      "departure_date": "21/10/2026",
+      "from": "VII",
+      "to": "SGN",
+      "stops": 0,
+      "leg_type": "outbound",
+      "leg_display": "Chiều đi",
+      "booking_url_abay": "https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=VII-SGN-1-0-0-21Oct2026-22Oct2026",
+      "booking_url_traveloka": "https://www.traveloka.com/vi-vn/flight/fulltwosearch?ap=VII.SGN&dt=21-10-2026.22-10-2026&ps=1.0.0&sc=ECONOMY"
+    },
+    "source": "Abay Engine (Chuẩn giá nội địa)",
+    "alert_sent": false
   }
 ]

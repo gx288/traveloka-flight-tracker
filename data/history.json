@@ -8588,5 +8588,32 @@
     },
     "source": "Google Flights / GDS (Dự phòng)",
     "alert_sent": false
+  },
+  {
+    "timestamp": "2026-10-09 01:43:13",
+    "min_price": 1086581,
+    "flight_count": 7,
+    "cheapest_flight": {
+      "id": "gflights_0_05:00",
+      "price": 1086581,
+      "base_price": 1086581,
+      "tax_fee": 0,
+      "currency": "VND",
+      "airline": "Vietjet",
+      "airline_code": "VJ",
+      "flight_number": "VJ-110m",
+      "departure_time": "05:00",
+      "arrival_time": "06:50",
+      "departure_date": "22/10/2026",
+      "from": "SGN",
+      "to": "VII",
+      "stops": 0,
+      "leg_type": "outbound",
+      "leg_display": "Chiều đi",
+      "booking_url_abay": "https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=SGN-VII-1-0-0-22Oct2026",
+      "booking_url_traveloka": "https://www.traveloka.com/vi-vn/flight/fullsearch?ap=SGN.VII&dt=22-10-2026.NA&ps=1.0.0&sc=ECONOMY"
+    },
+    "source": "Google Flights / GDS (Dự phòng)",
+    "alert_sent": false
   }
 ]

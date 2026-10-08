@@ -10,11 +10,11 @@
     "proxy": "Cấu hình proxy cho Traveloka: enabled (bật/tắt), mode ('auto': tự động cào proxy sống từ GitHub / 'custom': dùng proxy riêng), custom_proxy ('http://user:pass@ip:port')",
     "telegram": "Bot token & Chat ID được bảo mật tự động qua GitHub Secrets (TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)"
   },
-  "trip_type": "round_trip",
-  "origin": "VII",
-  "destination": "SGN",
-  "departure_date": "21-10-2026",
-  "return_date": "22-10-2026",
+  "trip_type": "one_way",
+  "origin": "SGN",
+  "destination": "VII",
+  "departure_date": "22-10-2026",
+  "return_date": "",
   "passengers": {
     "adults": 1,
     "children": 0,

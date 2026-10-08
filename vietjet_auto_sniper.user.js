@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Vietjet 0đ Sniper v2 (Bắt 0đ + Gỡ hành lý/bảo hiểm + VietQR + Auditor)
 // @namespace    https://github.com/gx288/traveloka-flight-tracker
-// @version      2.1.0
+// @version      2.1.1
 // @description  Viết lại sạch: phát hiện vé 0đ đúng định dạng giá Vietjet, gỡ hành lý/bảo hiểm 1 lần không lặp, tích điều khoản, chọn VietQR có kiểm tra, bảng soi lỗi không chặn click.
 // @author       Antigravity
 // @match        https://*.vietjetair.com/*
@@ -15,8 +15,8 @@
     // ======================= CẤU HÌNH =======================
     const CFG = {
         passengerRegex: /TRAN\s*THI\s*KIM\s*TINH|TRẦN\s*THỊ\s*KIM\s*TĨNH/i,
-        departDate: '21/10/2026',
-        returnDate: '22/10/2026',      // để '' nếu bay 1 chiều
+        departDate: '22/10/2026',      // vé về SGN -> VII (vé đi 21/10 đã mua)
+        returnDate: '',      // để '' nếu bay 1 chiều
         AUTO_CLICK_ZERO: false,        // true = tự click vé 0đ đầu tiên (có thể chọn sai giờ bay)
         TICK_MS: 500,
         AUTO_CLICK: false,             // false = CHỈ soi & báo, không bấm gì hộ

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09 08:56:25",
+  "updated_at": "2026-10-09 09:02:09",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "one_way",
@@ -43,10 +43,10 @@
     }
   },
   "total_flights": 15,
-  "min_price": 970000,
+  "min_price": 928000,
   "cheapest_flight": {
     "id": "abay_VU_VU550_13:15_outbound",
-    "price": 970000,
+    "price": 928000,
     "base_price": 198000,
     "tax_fee": 0,
     "currency": "VND",
@@ -66,7 +66,7 @@
   },
   "cheapest_outbound": {
     "id": "abay_VU_VU550_13:15_outbound",
-    "price": 970000,
+    "price": 928000,
     "base_price": 198000,
     "tax_fee": 0,
     "currency": "VND",
@@ -88,7 +88,7 @@
   "flights": [
     {
       "id": "abay_VU_VU550_13:15_outbound",
-      "price": 970000,
+      "price": 928000,
       "base_price": 198000,
       "tax_fee": 0,
       "currency": "VND",
@@ -308,7 +308,7 @@
     },
     {
       "id": "abay_VU_VU550_13:15_outbound",
-      "price": 3516000,
+      "price": 2727000,
       "base_price": 3650000,
       "tax_fee": 0,
       "currency": "VND",

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-09 11:02:45",
+  "updated_at": "2026-10-09 11:06:20",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "one_way",
@@ -43,10 +43,10 @@
     }
   },
   "total_flights": 15,
-  "min_price": 198000,
+  "min_price": 928000,
   "cheapest_flight": {
     "id": "abay_VU_VU550_13:15_outbound",
-    "price": 198000,
+    "price": 928000,
     "base_price": 198000,
     "tax_fee": 0,
     "currency": "VND",
@@ -66,7 +66,7 @@
   },
   "cheapest_outbound": {
     "id": "abay_VU_VU550_13:15_outbound",
-    "price": 198000,
+    "price": 928000,
     "base_price": 198000,
     "tax_fee": 0,
     "currency": "VND",
@@ -88,7 +88,7 @@
   "flights": [
     {
       "id": "abay_VU_VU550_13:15_outbound",
-      "price": 198000,
+      "price": 928000,
       "base_price": 198000,
       "tax_fee": 0,
       "currency": "VND",
@@ -108,7 +108,7 @@
     },
     {
       "id": "abay_VJ_VJ224_05:00_outbound",
-      "price": 375000,
+      "price": 1107000,
       "base_price": 375000,
       "tax_fee": 0,
       "currency": "VND",
@@ -128,7 +128,7 @@
     },
     {
       "id": "abay_VJ_VJ212_07:55_outbound",
-      "price": 375000,
+      "price": 1107000,
       "base_price": 375000,
       "tax_fee": 0,
       "currency": "VND",
@@ -148,7 +148,7 @@
     },
     {
       "id": "abay_VJ_VJ210_13:25_outbound",
-      "price": 375000,
+      "price": 1107000,
       "base_price": 375000,
       "tax_fee": 0,
       "currency": "VND",
@@ -168,7 +168,7 @@
     },
     {
       "id": "abay_VJ_VJ214_14:00_outbound",
-      "price": 375000,
+      "price": 1107000,
       "base_price": 375000,
       "tax_fee": 0,
       "currency": "VND",
@@ -188,7 +188,7 @@
     },
     {
       "id": "abay_VJ_VJ216_18:40_outbound",
-      "price": 375000,
+      "price": 1107000,
       "base_price": 375000,
       "tax_fee": 0,
       "currency": "VND",
@@ -208,7 +208,7 @@
     },
     {
       "id": "abay_BL_VN6420_06:40_outbound",
-      "price": 476000,
+      "price": 1202000,
       "base_price": 476000,
       "tax_fee": 0,
       "currency": "VND",
@@ -228,7 +228,7 @@
     },
     {
       "id": "abay_VN_VN1264_10:40_outbound",
-      "price": 559000,
+      "price": 1291000,
       "base_price": 559000,
       "tax_fee": 0,
       "currency": "VND",
@@ -248,7 +248,7 @@
     },
     {
       "id": "abay_VN_VN1266_14:15_outbound",
-      "price": 559000,
+      "price": 1291000,
       "base_price": 559000,
       "tax_fee": 0,
       "currency": "VND",
@@ -268,7 +268,7 @@
     },
     {
       "id": "abay_VN_VN7264_16:45_outbound",
-      "price": 559000,
+      "price": 1291000,
       "base_price": 559000,
       "tax_fee": 0,
       "currency": "VND",
@@ -288,7 +288,7 @@
     },
     {
       "id": "abay_VN_VN1268_18:55_outbound",
-      "price": 559000,
+      "price": 1291000,
       "base_price": 559000,
       "tax_fee": 0,
       "currency": "VND",
@@ -307,8 +307,28 @@
       "booking_url_traveloka": "https://www.traveloka.com/vi-vn/flight/fullsearch?ap=SGN.VII&dt=22-10-2026.NA&ps=1.0.0&sc=ECONOMY"
     },
     {
+      "id": "abay_VU_VU550_13:15_outbound",
+      "price": 2727000,
+      "base_price": 3650000,
+      "tax_fee": 0,
+      "currency": "VND",
+      "airline": "Vietravel Airlines",
+      "airline_code": "VU",
+      "flight_number": "VU550",
+      "departure_time": "13:15",
+      "arrival_time": "15:05",
+      "departure_date": "22/10/2026",
+      "from": "SGN",
+      "to": "VII",
+      "stops": 0,
+      "leg_type": "outbound",
+      "leg_display": "Chiều đi",
+      "booking_url_abay": "https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=SGN-VII-1-0-0-22Oct2026",
+      "booking_url_traveloka": "https://www.traveloka.com/vi-vn/flight/fullsearch?ap=SGN.VII&dt=22-10-2026.NA&ps=1.0.0&sc=ECONOMY"
+    },
+    {
       "id": "abay_BL_VN6420_06:40_outbound",
-      "price": 3187000,
+      "price": 4129000,
       "base_price": 3187000,
       "tax_fee": 0,
       "currency": "VND",
@@ -328,7 +348,7 @@
     },
     {
       "id": "abay_VN_VN1264_10:40_outbound",
-      "price": 3387000,
+      "price": 4345000,
       "base_price": 3387000,
       "tax_fee": 0,
       "currency": "VND",
@@ -348,7 +368,7 @@
     },
     {
       "id": "abay_VN_VN7264_16:45_outbound",
-      "price": 3387000,
+      "price": 4345000,
       "base_price": 3387000,
       "tax_fee": 0,
       "currency": "VND",
@@ -357,26 +377,6 @@
       "flight_number": "VN7264",
       "departure_time": "16:45",
       "arrival_time": "18:35",
-      "departure_date": "22/10/2026",
-      "from": "SGN",
-      "to": "VII",
-      "stops": 0,
-      "leg_type": "outbound",
-      "leg_display": "Chiều đi",
-      "booking_url_abay": "https://www.abay.vn/_Web/ResultDom2024/ResultDom.aspx?input=SGN-VII-1-0-0-22Oct2026",
-      "booking_url_traveloka": "https://www.traveloka.com/vi-vn/flight/fullsearch?ap=SGN.VII&dt=22-10-2026.NA&ps=1.0.0&sc=ECONOMY"
-    },
-    {
-      "id": "abay_VU_VU550_13:15_outbound",
-      "price": 3650000,
-      "base_price": 3650000,
-      "tax_fee": 0,
-      "currency": "VND",
-      "airline": "Vietravel Airlines",
-      "airline_code": "VU",
-      "flight_number": "VU550",
-      "departure_time": "13:15",
-      "arrival_time": "15:05",
       "departure_date": "22/10/2026",
       "from": "SGN",
       "to": "VII",

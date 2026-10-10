@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-10 20:36:39",
+  "updated_at": "2026-10-10 20:41:36",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "one_way",
@@ -43,11 +43,11 @@
     }
   },
   "total_flights": 15,
-  "min_price": 1075000,
+  "min_price": 928000,
   "cheapest_flight": {
     "id": "abay_VU_VU550_13:15_outbound",
-    "price": 1075000,
-    "base_price": 368000,
+    "price": 928000,
+    "base_price": 198000,
     "tax_fee": 0,
     "currency": "VND",
     "airline": "Vietravel Airlines",
@@ -66,8 +66,8 @@
   },
   "cheapest_outbound": {
     "id": "abay_VU_VU550_13:15_outbound",
-    "price": 1075000,
-    "base_price": 368000,
+    "price": 928000,
+    "base_price": 198000,
     "tax_fee": 0,
     "currency": "VND",
     "airline": "Vietravel Airlines",
@@ -88,8 +88,8 @@
   "flights": [
     {
       "id": "abay_VU_VU550_13:15_outbound",
-      "price": 1075000,
-      "base_price": 368000,
+      "price": 928000,
+      "base_price": 198000,
       "tax_fee": 0,
       "currency": "VND",
       "airline": "Vietravel Airlines",

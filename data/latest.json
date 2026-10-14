@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-15 01:22:07",
+  "updated_at": "2026-10-15 01:26:39",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "one_way",
@@ -288,7 +288,7 @@
     },
     {
       "id": "abay_VN_VN1264_10:40_outbound",
-      "price": 1375000,
+      "price": 1495000,
       "base_price": 748000,
       "tax_fee": 0,
       "currency": "VND",

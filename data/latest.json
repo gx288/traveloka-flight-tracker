@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-17 03:15:10",
+  "updated_at": "2026-10-17 06:08:09",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "one_way",
@@ -288,8 +288,8 @@
     },
     {
       "id": "abay_VN_VN1264_10:40_outbound",
-      "price": 1853000,
-      "base_price": 1079000,
+      "price": 2522000,
+      "base_price": 1699000,
       "tax_fee": 0,
       "currency": "VND",
       "airline": "Vietnam Airlines",

@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-21 05:49:37",
+  "updated_at": "2026-10-21 08:08:14",
   "source": "Abay Engine (Chuẩn giá nội địa)",
   "config": {
     "trip_type": "one_way",
@@ -128,7 +128,7 @@
     },
     {
       "id": "abay_BL_VN6420_06:40_outbound",
-      "price": 1679000,
+      "price": 1669000,
       "base_price": 918000,
       "tax_fee": 0,
       "currency": "VND",
@@ -208,8 +208,8 @@
     },
     {
       "id": "abay_VJ_VJ216_18:40_outbound",
-      "price": 2258000,
-      "base_price": 1440000,
+      "price": 2096000,
+      "base_price": 1290000,
       "tax_fee": 0,
       "currency": "VND",
       "airline": "Vietjet Air",
@@ -288,7 +288,7 @@
     },
     {
       "id": "abay_BL_VN6420_06:40_outbound",
-      "price": 4129000,
+      "price": 4119000,
       "base_price": 3187000,
       "tax_fee": 0,
       "currency": "VND",
